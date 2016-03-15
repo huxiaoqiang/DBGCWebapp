@@ -1,11 +1,15 @@
-import xlsxwriter
+import groupCounter
 
-workbook = xlsxwriter.Workbook('chart.xlsx')
-worksheet = workbook.add_worksheet()
+counterA = groupCounter.groupCounter()
 
-worksheet.write(0,1,'hi')
+counterA.readGjfFile(fileName='C5H10_5.gjf', directory='Gjfs', moleculeLabel='test1')
+counterA.readGroupTemplate()
+counterA.writeDBGCVector(overwrite=True)
 
-# for i in xrange(1000):
-# 	worksheet.write(0, i, i)
+counterA.readGjfFile(fileName='C9H18_100_r015.gjf', directory='Gjfs', moleculeLabel='test2')
+counterA.readGroupTemplate()
+counterA.writeDBGCVector(overwrite=False)
 
-workbook.close()
+counterA.readGjfFile(fileName='C10H22_57_r019.gjf', directory='Gjfs', moleculeLabel='test3')
+counterA.readGroupTemplate()
+counterA.writeDBGCVector(overwrite=False)

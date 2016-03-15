@@ -1,6 +1,6 @@
 # this is a class of chemistry 
 # it can be used to deal with infomation of atoms and molecules
-import visual
+# import visual
 import os
 
 import numpy as np
@@ -13,7 +13,8 @@ elementDict={1:'H', 2:'He', 6:'C', 7:'N', 8:'O',
 
 eleWeightDict={'H': 1.008, 'He': 4.0026, 'C': 12.011, 'O': 15.999, 'N': 14.007}
 
-eleColorDict={'H': visual.color.white, 'He': visual.color.cyan, 'C': visual.color.yellow, 'O': visual.color.red, 'N': visual.color.green}
+# eleColorDict={'H': visual.color.white, 'He': visual.color.cyan, 'C': visual.color.yellow, 'O': visual.color.red, 'N': visual.color.green}
+eleColorDict={'H': 1, 'He': 2, 'C': 3, 'O': 4, 'N': 5}
 
 # gaussian default bond length threshold parameters
 # bondDisDict={
@@ -159,6 +160,7 @@ class molecule:
 	formula = ''
 
 	formationH = 0.0
+	# ref enthalpy is the key-value pairs of method-enthalpy
 	refH0 = {}
 	refH298 = {}
 
@@ -192,6 +194,7 @@ class molecule:
 		if inputAtoms == []:
 			self.atoms = []
 			atomsNum = len(geom)
+			# gjf geometry as default
 			for i in range(0, atomsNum):
 				tmp_line = geom[i]
 				tmp_line.strip()
@@ -214,6 +217,7 @@ class molecule:
 		else:
 			self.atoms = copy.deepcopy(inputAtoms)
 
+	# get atom symbol and the coordinate from .log format geometry text lines
 	def getLogGeom(self, geom):
 		self.atoms = []
 		for tmp_line in geom:
@@ -222,6 +226,8 @@ class molecule:
 			tmp_atom = atom(elementDict[tmp_line[1]] , int(tmp_line[0]), map(float, tmp_line[3:6]))
 			self.atoms.append(tmp_atom)
 
+	# get atom symbol and the coordinate from .gjf format geometry text lines
+	# this is the same as .xyz format
 	def getGjfGeom(self, geom):
 		self.atoms = []
 		for (i,tmp_line) in enumerate(geom):
@@ -859,6 +865,173 @@ class molecule:
   
 		return tmp_groupVector
 
+	# return the group additivity vector in method 2
+	# i.e. group A - group B exp(-3*distance)
+	# the vector returned is a dict
+	def getGroupVector6(self):
+		tmp_groupVector = {}
+		n = len(self.atoms)
+		# get all non-H atom list
+		allAtoms = []
+		for tmp_atom in self.atoms:
+			if tmp_atom.symbol != 'H':
+				allAtoms.append(tmp_atom)
+		# get the atomList in depth first search ranking
+		atomList = []
+		atomList.append(allAtoms[0])
+		allAtoms.remove(allAtoms[0])
+		parentIndex = 0
+		while allAtoms != []:
+			for tmp_atom in atomList[parentIndex].children:
+				if tmp_atom.symbol != 'H' and tmp_atom in allAtoms :
+					atomList.insert(parentIndex+1, tmp_atom)
+					allAtoms.remove(tmp_atom)
+			parentIndex += 1
+			if parentIndex == len(atomList):
+				break
+
+		# group info one by one
+		tmp_groups = self.get1stOrderGroup(atomList)
+		n_nonH = len(tmp_groups)		
+		tmp_groupSet = set(tmp_groups)
+		for tmp_group in tmp_groupSet:
+			tmp_groupVector[tmp_group] = tmp_groups.count(tmp_group)
+		
+		# interaction between two groups
+		tmp_groupSet = list(tmp_groupSet)
+		N_group = len(tmp_groupSet)
+		for i in xrange(N_group):
+			for j in xrange(i, N_group):
+				tmp_list = sorted([tmp_groupSet[i], tmp_groupSet[j]])
+				tmp_text = tmp_list[0] + '-' + tmp_list[1]
+				tmp_groupVector[tmp_text] = 0
+
+		distances = self.getDistanceMatrix(atomList)
+		# check the distance matrix
+		# print [x.label for x in atomList]
+		# for tmp in distances:
+		# 	print tmp
+		for i in xrange(n_nonH):
+			for j in xrange(i+1, n_nonH):
+				if not np.isnan(distances[i][j]):
+					tmp_list = sorted([tmp_groups[i], tmp_groups[j]])
+					tmp_text = tmp_list[0] + '-' + tmp_list[1]
+					tmp_groupVector[tmp_text] += np.exp(-3*distances[i][j])  		
+  
+		return tmp_groupVector
+
+	# return the group additivity vector in method 2
+	# i.e. group A - group B exp(-3*distance), but truncated when distance > 2
+	# the vector returned is a dict
+	def getGroupVector7(self):
+		tmp_groupVector = {}
+		n = len(self.atoms)
+		# get all non-H atom list
+		allAtoms = []
+		for tmp_atom in self.atoms:
+			if tmp_atom.symbol != 'H':
+				allAtoms.append(tmp_atom)
+		# get the atomList in depth first search ranking
+		atomList = []
+		atomList.append(allAtoms[0])
+		allAtoms.remove(allAtoms[0])
+		parentIndex = 0
+		while allAtoms != []:
+			for tmp_atom in atomList[parentIndex].children:
+				if tmp_atom.symbol != 'H' and tmp_atom in allAtoms :
+					atomList.insert(parentIndex+1, tmp_atom)
+					allAtoms.remove(tmp_atom)
+			parentIndex += 1
+			if parentIndex == len(atomList):
+				break
+
+		# group info one by one
+		tmp_groups = self.get1stOrderGroup(atomList)
+		n_nonH = len(tmp_groups)		
+		tmp_groupSet = set(tmp_groups)
+		for tmp_group in tmp_groupSet:
+			tmp_groupVector[tmp_group] = tmp_groups.count(tmp_group)
+		
+		# interaction between two groups
+		tmp_groupSet = list(tmp_groupSet)
+		N_group = len(tmp_groupSet)
+		for i in xrange(N_group):
+			for j in xrange(i, N_group):
+				tmp_list = sorted([tmp_groupSet[i], tmp_groupSet[j]])
+				tmp_text = tmp_list[0] + '-' + tmp_list[1]
+				tmp_groupVector[tmp_text] = 0
+
+		distances = self.getDistanceMatrix(atomList)
+		# check the distance matrix
+		# print [x.label for x in atomList]
+		# for tmp in distances:
+		# 	print tmp
+		for i in xrange(n_nonH):
+			for j in xrange(i+1, n_nonH):
+				if not np.isnan(distances[i][j]):
+					tmp_list = sorted([tmp_groups[i], tmp_groups[j]])
+					tmp_text = tmp_list[0] + '-' + tmp_list[1]
+					if distances[i][j] < 3:
+						tmp_groupVector[tmp_text] += np.exp(-3*distances[i][j])  		
+  
+		return tmp_groupVector
+
+	# return the group additivity vector in method 2
+	# i.e. group A - group B sum(distance)
+	# the vector returned is a dict
+	def getGroupVector8(self):
+		tmp_groupVector = {}
+		n = len(self.atoms)
+		# get all non-H atom list
+		allAtoms = []
+		for tmp_atom in self.atoms:
+			if tmp_atom.symbol != 'H':
+				allAtoms.append(tmp_atom)
+		# get the atomList in depth first search ranking
+		atomList = []
+		atomList.append(allAtoms[0])
+		allAtoms.remove(allAtoms[0])
+		parentIndex = 0
+		while allAtoms != []:
+			for tmp_atom in atomList[parentIndex].children:
+				if tmp_atom.symbol != 'H' and tmp_atom in allAtoms :
+					atomList.insert(parentIndex+1, tmp_atom)
+					allAtoms.remove(tmp_atom)
+			parentIndex += 1
+			if parentIndex == len(atomList):
+				break
+
+		# group info one by one
+		tmp_groups = self.get1stOrderGroup(atomList)
+		n_nonH = len(tmp_groups)		
+		tmp_groupSet = set(tmp_groups)
+		for tmp_group in tmp_groupSet:
+			tmp_groupVector[tmp_group] = tmp_groups.count(tmp_group)
+		
+		# interaction between two groups
+		tmp_groupSet = list(tmp_groupSet)
+		N_group = len(tmp_groupSet)
+		for i in xrange(N_group):
+			for j in xrange(i, N_group):
+				tmp_list = sorted([tmp_groupSet[i], tmp_groupSet[j]])
+				tmp_text = tmp_list[0] + '-' + tmp_list[1]
+				tmp_groupVector[tmp_text] = 0
+
+		distances = self.getDistanceMatrix(atomList)
+		# check the distance matrix
+		# print [x.label for x in atomList]
+		# for tmp in distances:
+		# 	print tmp
+		for i in xrange(n_nonH):
+			for j in xrange(i+1, n_nonH):
+				if not np.isnan(distances[i][j]):
+					tmp_list = sorted([tmp_groups[i], tmp_groups[j]])
+					tmp_text = tmp_list[0] + '-' + tmp_list[1]
+					if distances[i][j] < 4:
+						tmp_groupVector[tmp_text] += np.exp(-3*distances[i][j])  
+  
+		return tmp_groupVector		
+
 	# return the conventioanl group additivity vector
 	# i.e. groups, GAUCHE, 1-5 interaction
 	# the vector returned is a dict
@@ -1014,6 +1187,27 @@ class molecule:
 			tmp_distances = [[[]]]
 		
 		return tmp_routes, tmp_distances
+		
+	# assume this is a molecule and generate all possible radicals
+	# every H on heavy atoms is removed to generate radical 
+	def generateRadicals(self):
+		# get all non-H atom list
+		allAtoms = []
+		parentGeom = []
+		radicals = {}
+		for tmp_atom in self.atoms:
+			if tmp_atom.symbol != 'H':
+				allAtoms.append(tmp_atom)		
+		for tmp_atom in self.atoms:
+			parentGeom.append(tmp_atom.symbol + '    ' + '%.8f'%tmp_atom.coordinate[0] + '    ' + '%.8f'%tmp_atom.coordinate[1] + '    ' + '%.8f'%tmp_atom.coordinate[2] + ' \n')
+		for (index, tmp_atom) in enumerate(self.atoms):
+			if tmp_atom.symbol == 'H':
+				tmp_radical = parentGeom[0:index] + parentGeom[index+1:]
+				if len(tmp_atom.children) == 1:
+					radicals[''.join(tmp_radical)] = tmp_atom.children[0].symbol + str(tmp_atom.children[0].label)
+				else:
+					print 'Error! There is a hydrogen bond across H ' + str(tmp_atom.label) + '!'
+		return radicals
 
    
 class atom:
