@@ -1,13 +1,13 @@
-��Ŀ˵��
+﻿项目说明
 	python
-		����ҳ����Ӧ���У�ֻ��Ҫ����groupCounter�еĺ�����
-		test.py��һ�����ӡ�
-		����˳��
-		1. ����һ��ʵ����
+		在网页版中应用中，只需要调用groupCounter中的函数。
+		test.py是一个例子。
+		调用顺序：
+		1. 申明一个实例。
 				counterA = groupCounter.groupCounter()
-		2. ��ȡ���롣
-				���ļ�������Ϊ��counterA.readGjfFile(),�������Ϊ�ļ���fileName���ļ�·��directory��������.py��ͬ�ļ��������ȱʡ��Ҫ���ķ�����moleculeLabel�������û�����ȱʡ���ļ�ʾ����Gjfs�е��ļ���
-				������
+		2. 读取输入。
+				从文件中输入为：counterA.readGjfFile(),输入变量为文件名fileName，文件路径directory，若在与.py相同文件夹下则可缺省，要求解的分子名moleculeLabel，方便用户，可缺省。文件示例见Gjfs中的文件。
+				可以是
 				-----------------------------------------------------------------
 					%nprocshared=12
 					%mem=30GB
@@ -49,7 +49,7 @@
 					 15
 				-----------------------------------------------------------------
 				
-				Ҳ������
+				也可以是
 				-----------------------------------------------------------------
 					%nprocshared=12
 					%mem=30GB
@@ -78,8 +78,8 @@
 				-----------------------------------------------------------------
  
 				
-				ֱ������һ���ı�Ϊ��counterA.readGjfGeom()���������Ϊ���Ӽ��νṹgjfGeom��Ҫ���ķ�����moleculeLabel�������û�����ȱʡ��
-				���Ӽ��ν��������
+				直接输入一段文本为：counterA.readGjfGeom()，输入变量为分子几何结构gjfGeom，要求解的分子名moleculeLabel，方便用户，可缺省。
+				分子几何结果如下例
 				-----------------------------------------------------------------
 					 C                 -2.46019102    0.66878980    0.00000000
 					 H                 -3.53019102    0.66878980    0.00000000
@@ -98,13 +98,13 @@
 					 H                 -1.07925784   -0.72515562   -0.87462771
 				-----------------------------------------------------------------
 	
-		3. ��ȡģ���ļ�����ȡgroup library��
-				counterA.readGroupTemplate()���������Ϊģ���ļ���fileName����ȱʡ��Ĭ��ΪͬĿ¼���ļ�groupTemplate.xlsx��
-		4. ����DBGC������д��excel�ļ���
-				counterA.writeDBGCVector()���������Ϊ����excel�ļ�����Ĭ��ΪDBGCVectors.xlsx������DBGCVectors�ļ����С�overwrite=True/False���Կ������������ɻ��ǽ���֮ǰ������д�롣
+		3. 读取模板文件，获取group library。
+				counterA.readGroupTemplate()，输入变量为模板文件名fileName，可缺省，默认为同目录下文件groupTemplate.xlsx。
+		4. 生成DBGC向量，写入excel文件。
+				counterA.writeDBGCVector()，输入变量为生成excel文件名，默认为DBGCVectors.xlsx，放在DBGCVectors文件夹中。overwrite=True/False可以控制是重新生成还是接着之前的数据写入。
 	
 	Matlab
-		ǰ��python code���ɵ�DBGCVectors.xlsx��Ϊ��Matlab����������ļ�������DBGCUseTrainedANN.m�õ���predicted_test_Y������Ϊ�����������DBGCVectors.xlsx���ж��ٷ��ӣ�predicted_test_Y���Ⱦ��ж೤��
-		��Matlab code�����ȶ�ȡ��DBGCVectors.xlsx������ĵ����ٶȺ������������ݺ��٣������Ҿ��úܲ�Ӧ�ã����ܶ�ȡexcel�ĺ����ĵ��÷�ʽ�����⣬���ܲ��ܰ����Ż�һ�����
-		��Matlab code�л���ȡ��savedNet�е�parameterizedAlgorithm.mat�����Ѿ�ѵ���õ����硣������Ӻܶ࣬��ʵ�����Ƕ�ȡһ�ξ͹��ˣ�Ŀǰ��û�зֿ���������ҪҲ�����Ż���
+		前面python code生成的DBGCVectors.xlsx即为此Matlab程序的输入文件。运行DBGCUseTrainedANN.m得到的predicted_test_Y变量即为最后的求解结果，DBGCVectors.xlsx中有多少分子，predicted_test_Y长度就有多长。
+		在Matlab code中首先读取了DBGCVectors.xlsx，这里的调用速度很慢，由于数据很少，所以我觉得很不应该，可能读取excel的函数的调用方式有问题，你能不能帮我优化一下这里？
+		在Matlab code中还读取了savedNet中的parameterizedAlgorithm.mat，即已经训练好的网络。如果分子很多，其实可以是读取一次就够了，目前还没有分开，若有需要也可以优化。
 		
