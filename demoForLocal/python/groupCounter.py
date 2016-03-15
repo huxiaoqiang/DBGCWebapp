@@ -166,6 +166,9 @@ class groupCounter:
 		
 		return self.groupLib
 
+	# this function is used to generater DBGC vector from the geometry
+	# the input vectors will be put into an excel file. The default name of the excel is DBGCVectors.xlsx
+	# use overwrite to control the writting mode overwrite/append
 	def writeDBGCVector(self, fileName='DBGCVectors.xlsx', overwrite=True):
 		if not os.path.exists('DBGCVectors'):
 			os.mkdir('DBGCVectors')
