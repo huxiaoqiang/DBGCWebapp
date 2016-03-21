@@ -25,19 +25,19 @@ def uploadFile(request):
 def getOutput(request):
     re = dict()
     if request.method == 'GET':
+        re['error'] = error(1)
         eng = matlab.engine.start_matlab()
         counterA = groupCounter.groupCounter()
         counterA.readGjfFile(fileName='C5H10_5.gjf', directory='Gjfs', moleculeLabel='test1')
         counterA.readGroupTemplate()
         counterA.writeDBGCVector(overwrite=True)
+
+        try:
+            ret = eng.DBGCUseTrainedANN()
+            re['data'] = ret
+        except:
+            re['error'] = error(4)
         eng.quit()
     else:
         re['error'] = error(2)
     return HttpResponse(json.dumps(re),content_type='application/json')
-
-def handle_matlab_command(command):
-    eng = matlab.engine.start_matlab()
-    tf = eng.isprime(37)
-    print (tf)
-
-

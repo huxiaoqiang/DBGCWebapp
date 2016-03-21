@@ -64,7 +64,9 @@ class groupCounter:
 		lineEnd = 0
 
 		print fileName
-		gjfFile = file(os.path.join(directory, fileName), 'r')
+		BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+		dir = BASE_DIR  + '/Gjfs'
+		gjfFile = file(os.path.join(dir, fileName), 'r')
 		tmp_lines = gjfFile.readlines()
 		for (lineNum, tmp_line) in enumerate(tmp_lines):
 			if gjfCommand_done != 1:
@@ -140,10 +142,11 @@ class groupCounter:
 	# use this function once before writeDBGCVector, because the dimension of the GBGC vector should be determined in advance
 	# the default name of the template file is groupTemplate.xlsx
 	def readGroupTemplate(self, fileName='groupTemplate.xlsx'):
-		if not os.path.exists(fileName):
+		BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+		groupTemplate = BASE_DIR + '/inputfile/'+fileName
+		if not os.path.exists(groupTemplate):
 			print 'Error! Group template file ' + fileName + 'does not exist!'
-		
-		wbr = openpyxl.load_workbook(fileName)
+		wbr = openpyxl.load_workbook(groupTemplate)
 		shr = wbr.get_sheet_by_name('inputVectors') 
 		vectorDimension = int(shr.cell(row=2, column=4).value)
 		row_group = 3
