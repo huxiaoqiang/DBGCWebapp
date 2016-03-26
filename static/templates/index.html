@@ -1,7 +1,35 @@
 <html>
     <head>
+        <meta charset="utf-8">
+        <title>DBGC</title>
+        <link rel="stylesheet" href="/static/css/base.css" />
+        <link rel="stylesheet" href="/static/lib/bootstrap/bootstrap.min.css" />
+
+        <script src="/static/lib/jquery-2.1.4.js"></script>
+        <script src="/static/lib/bootstrap/bootstrap.min.js"></script>
     </head>
     <body>
-        <h1>index.html</h1>
+        {% include "header.html" %}
+            <div id='wrap'>
+              <div class="column clearfix" id="main-container">
+                  <form action="/api/output/get" method="get">
+                    <label>filename</label>
+                    <select class="form-control" name="filename">
+                      <option value="C5H10_1">C5H10_1</option>
+                      <option value="C5H10_2">C5H10_2</option>
+                      <option value="C5H10_3">C5H10_3</option>
+                      <option value="C5H10_4">C5H10_4</option>
+                      <option value="C17H36_1">C17H36_1</option>
+                      <option value="C17H36_2">C17H36_2</option>
+                      <option value="C18H38_1">C18H38_1</option>
+                      <option value="C18H38_2">C18H38_2</option>
+                    </select>
+                    <label>moleculeLabel</label>
+                    <input class="form-control" placeholder="moleculeLabel" type="text" name="moleculeLabel" />
+                    <input type="submit" value="Submit" />
+                </form>
+              </div>
+            </div>
+        {% include "footer.html" %}
     </body>
 </html>

@@ -1,0 +1,33 @@
+@import "index";
+@import "header";
+@import "footer";
+
+html{
+  height: 100%;
+}
+body{
+  height: 100%;
+}
+body > #wrap {
+  height: auto;
+  min-height: 100%;
+}
+#main-container {
+  padding-bottom: 56px;
+}
+.clearfix:after {
+   content: ".";
+   display: block;
+   height: 0;
+   clear: both;
+   visibility: hidden;
+ }
+.clearfix {
+  display: inline-block;
+}
+* html .clearfix {
+  height: 1%;
+}
+.clearfix {
+  display: block;
+}

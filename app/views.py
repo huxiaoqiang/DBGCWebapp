@@ -25,19 +25,21 @@ def uploadFile(request):
 def getOutput(request):
     re = dict()
     if request.method == 'GET':
+        filename = request.GET.get('filename','')
+        moleculeLabel = request.GET.get('moleculeLabel','')
         re['error'] = error(1)
+        fullFileName = filename + '.gjf'
         eng = matlab.engine.start_matlab()
         counterA = groupCounter.groupCounter()
-        counterA.readGjfFile(fileName='C5H10_5.gjf', directory='Gjfs', moleculeLabel='test1')
+        counterA.readGjfFile(fileName=fullFileName, directory='Gjfs', moleculeLabel=moleculeLabel)
         counterA.readGroupTemplate()
         counterA.writeDBGCVector(overwrite=True)
-
         try:
             ret = eng.DBGCUseTrainedANN()
             re['data'] = ret
         except:
             re['error'] = error(4)
-        eng.quit()
+        #eng.quit()
     else:
         re['error'] = error(2)
     return HttpResponse(json.dumps(re),content_type='application/json')
