@@ -7,27 +7,68 @@
 
         <script src="/static/lib/jquery-2.1.4.js"></script>
         <script src="/static/lib/bootstrap/bootstrap.min.js"></script>
+        <script src="/static/js/index.js"></script>
     </head>
     <body>
         {% include "header.html" %}
             <div id='wrap'>
               <div class="column clearfix" id="main-container">
-                  <form action="/api/output/get" method="get">
-                    <label>filename</label>
-                    <select class="form-control" name="filename">
-                      <option value="C5H10_1">C5H10_1</option>
-                      <option value="C5H10_2">C5H10_2</option>
-                      <option value="C5H10_3">C5H10_3</option>
-                      <option value="C5H10_4">C5H10_4</option>
-                      <option value="C17H36_1">C17H36_1</option>
-                      <option value="C17H36_2">C17H36_2</option>
-                      <option value="C18H38_1">C18H38_1</option>
-                      <option value="C18H38_2">C18H38_2</option>
-                    </select>
-                    <label>moleculeLabel</label>
-                    <input class="form-control" placeholder="moleculeLabel" type="text" name="moleculeLabel" />
-                    <input type="submit" value="Submit" />
-                </form>
+                  <!--<form action="/api/output/get" method="get">-->
+                    <!--<label>filename</label>-->
+                    <!--<select class="form-control" name="filename">-->
+                      <!--<option value="C5H10_1">C5H10_1</option>-->
+                      <!--<option value="C5H10_2">C5H10_2</option>-->
+                      <!--<option value="C5H10_3">C5H10_3</option>-->
+                      <!--<option value="C5H10_4">C5H10_4</option>-->
+                      <!--<option value="C17H36_1">C17H36_1</option>-->
+                      <!--<option value="C17H36_2">C17H36_2</option>-->
+                      <!--<option value="C18H38_1">C18H38_1</option>-->
+                      <!--<option value="C18H38_2">C18H38_2</option>-->
+                    <!--</select>-->
+                    <!--<label>moleculeLabel</label>-->
+                    <!--<input class="form-control" placeholder="moleculeLabel" type="text" name="moleculeLabel" />-->
+                    <!--<input type="submit" value="Submit" />-->
+                <!--</form>-->
+                  <div class="home-page">
+                      <h2>DBGC</h2>
+                      <form name="UploadFileForm">
+                          <input type="text" class="uploadFileText" placeholder="Choose File" disabled="disabled">
+                          <div class="fileUpload btn btn-default">
+                               <span>Chooses</span>
+                              <!--<label class="upload-label">upload files(multi-choice):</label>-->
+                              <input type="file" name="file" multiple="multiple" class="upload">
+                          </div>
+                            <div class="loader loader--style6" title="loading">
+                              <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                 width="24px" height="30px" viewBox="0 0 24 30" style="enable-background:new 0 0 50 50;" xml:space="preserve">
+                                <rect x="0" y="13" width="4" height="5" fill="#333">
+                                  <animate attributeName="height" attributeType="XML"
+                                    values="5;21;5"
+                                    begin="0s" dur="0.6s" repeatCount="indefinite" />
+                                  <animate attributeName="y" attributeType="XML"
+                                    values="13; 5; 13"
+                                    begin="0s" dur="0.6s" repeatCount="indefinite" />
+                                </rect>
+                                <rect x="10" y="13" width="4" height="5" fill="#333">
+                                  <animate attributeName="height" attributeType="XML"
+                                    values="5;21;5"
+                                    begin="0.15s" dur="0.6s" repeatCount="indefinite" />
+                                  <animate attributeName="y" attributeType="XML"
+                                    values="13; 5; 13"
+                                    begin="0.15s" dur="0.6s" repeatCount="indefinite" />
+                                </rect>
+                                <rect x="20" y="13" width="4" height="5" fill="#333">
+                                  <animate attributeName="height" attributeType="XML"
+                                    values="5;21;5"
+                                    begin="0.3s" dur="0.6s" repeatCount="indefinite" />
+                                  <animate attributeName="y" attributeType="XML"
+                                    values="13; 5; 13"
+                                    begin="0.3s" dur="0.6s" repeatCount="indefinite" />
+                                </rect>
+                              </svg>
+                            </div>
+                      </form>
+                  </div>
               </div>
             </div>
         {% include "footer.html" %}

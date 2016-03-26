@@ -8,5 +8,6 @@ urlpatterns = patterns('',
     # url(r'^$', 'DBGCWebapp.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
     url(r'^api/',include('app.urls')),
+    url(r'^output/$','app.views.output'),
     url(r'^.*','app.views.index'),
 )

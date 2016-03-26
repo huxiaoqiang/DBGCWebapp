@@ -25,7 +25,7 @@ class groupCounter:
 	#definetion of comparing pattern
 	pattern_gjfCommand = re.compile('^.*#p?.*$')
 	pattern_gjfMulti = re.compile('^.*([0-9]+) +([0-9]+).*$')
-	pattern_blankLine = re.compile('^ *$')
+	pattern_blankLine = re.compile('^\r\n$')
 
 	# definition of variables
 	name = ''
@@ -52,7 +52,7 @@ class groupCounter:
 	# moleculeLabel is the unique label or name of this molecule for convenient reference, such as ethane or pentane
 	# if moleculeLabel is not given, the name of molecule would be regarded as the same as the formula
 	# the output parameter multi is the multiplicity of the molecule, which is not needed in this group contribution method. Thus even a wrong multiplicity could work. When multi is not given, it would be regarded as 0 as default.
-	def readGjfFile(self, fileName, directory='', moleculeLabel=''):
+	def readGjfFile(self, gjfFile, moleculeLabel=''):
 		#definition of flags
 		gjfCommand_done = -1
 		gjfMulti_done = -1
@@ -62,11 +62,8 @@ class groupCounter:
 		tmp_m = []		#match result 
 		lineStart = 0
 		lineEnd = 0
-
-		print fileName
 		BASE_DIR = os.path.dirname(os.path.dirname(__file__))
-		dir = BASE_DIR  + '/Gjfs'
-		gjfFile = file(os.path.join(dir, fileName), 'r')
+
 		tmp_lines = gjfFile.readlines()
 		for (lineNum, tmp_line) in enumerate(tmp_lines):
 			if gjfCommand_done != 1:
@@ -93,7 +90,6 @@ class groupCounter:
 		else:
 			print 'Gjf file read in successfully!'
 
-		gjfFile.close()
 
 		tmp_mole = chem.molecule()
 		tmp_mole.getGjfGeom(self.geom)

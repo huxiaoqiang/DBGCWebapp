@@ -83,3 +83,4 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 TEMPLATE_DIRS = (BASE_DIR + '/static/templates',)
+SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
