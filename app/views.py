@@ -18,7 +18,11 @@ def index(request):
 
 def output(request):
     request.META["CSRF_COOKIE_USED"] = True
-    context = {}
+
+    context = {
+        'vectorFileName' : request.session.get('vectorFileName',''),
+        'data':  request.session.get('data','')
+    }
     return render_to_response('output.html',context_instance = RequestContext(request,context))
 
 def uploadFile(request):
@@ -38,15 +42,20 @@ def uploadFile(request):
                 counterA.readGroupTemplate()
                 counterA.writeDBGCVector(fileName=vectorFileName,overwrite=False)
             try:
-                request.META["CSRF_COOKIE_USED"] = True
                 ret = eng.DBGCUseTrainedANN(vectorFileName)
-                re['data'] = ret
+                if isinstance(ret,float):
+                    data = ret
+                else:
+                    data = []
+                    for item in ret:
+                        data.append(item[0])
+                re['data'] = data
                 re['error'] = error(1)
+
+                request.session['vectorFileName'] = vectorFileName
+                request.session['data'] = data
             except:
                 re['error'] = error(4)
-            request.session['vectorFileName'] = vectorFileName
-            request.session['ret'] = ret
-            return HttpResponseRedirect('/output/')
     else:
         re['error'] = error(3)
     return HttpResponse(json.dumps(re),content_type='application/json')
