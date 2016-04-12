@@ -6,4 +6,5 @@ urlpatterns = patterns('',
     # url(r'^blog/', include('blog.urls')),
     url(r'file/upload$',views.uploadFile,name='uploadFile'),
     url(r'output/get$',views.getOutput,name='getOutput'),
+
 )
