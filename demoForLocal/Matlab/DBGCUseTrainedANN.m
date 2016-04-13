@@ -28,12 +28,6 @@ function DBGCUseTrainedANN()
 
 	load savedNet\parameterizedAlgorithm 
 
-<<<<<<< HEAD
-% disp('here');
-% for i=inputStartLine:inputStartLine+sampleSize-1
-%     xlswrite('DBGCVectors\DBGCVectors.xlsx',predicted_test_Y,'inputVectors',['FW' num2str(inputStartLine) ':FW' num2str(inputStartLine+sampleSize-1)]);
-% end
-=======
 	if regressionUsed ==2
 	    predicted_test_Y = trained_ANN_net(test_X(:,regressionTruncate+1:end)');   
 	    predicted_test_Y = predicted_test_Y';
@@ -50,8 +44,11 @@ function DBGCUseTrainedANN()
 	    disp('hi2');
 	    predicted_test_Y = [ones(size(test_X,1),1),test_X(:,[1:regressionTruncate])]*reg_coeff;
 	end
-
->>>>>>> origin/master
+	
+	% disp('here');
+	% for i=inputStartLine:inputStartLine+sampleSize-1
+	%     xlswrite('DBGCVectors\DBGCVectors.xlsx',predicted_test_Y,'inputVectors',['FW' num2str(inputStartLine) ':FW' num2str(inputStartLine+sampleSize-1)]);
+	% end
 
 
 
