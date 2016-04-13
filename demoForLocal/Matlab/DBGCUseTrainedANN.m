@@ -44,7 +44,10 @@ if regressionUsed == -1
     predicted_test_Y = [ones(size(test_X,1),1),test_X(:,[1:regressionTruncate])]*reg_coeff;
 end
 
-
+% disp('here');
+% for i=inputStartLine:inputStartLine+sampleSize-1
+%     xlswrite('DBGCVectors\DBGCVectors.xlsx',predicted_test_Y,'inputVectors',['FW' num2str(inputStartLine) ':FW' num2str(inputStartLine+sampleSize-1)]);
+% end
 
 
 
