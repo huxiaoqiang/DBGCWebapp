@@ -12,7 +12,19 @@
 </head>
 <body>
     {% include "header.html" %}
-
+    <div id='wrap'>
+          <div class="column clearfix" id="main-container">
+              <div class="col-md-4">
+                <img src="" >
+              </div>
+              <div class="col-md-8">
+                  <label>vector:</label><br>
+                  <span>{{ data }}</span><br>
+                  <label>enthe</label><br>
+                  <a href="/static/DBGCVectors/{{vectorFileName}}" download="DBGCVectors">{{vectorFileName}}</a>
+              </div>
+          </div>
+    </div>
     {% include "footer.html" %}
 </body>
 </html>

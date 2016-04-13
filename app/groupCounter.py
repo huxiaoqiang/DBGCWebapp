@@ -8,7 +8,7 @@ import re
 import openpyxl
 
 import chem
-
+import shutil
 # constants
 
 
@@ -168,7 +168,7 @@ class groupCounter:
 	# this function is used to generater DBGC vector from the geometry
 	# the input vectors will be put into an excel file. The default name of the excel is DBGCVectors.xlsx
 	# use overwrite to control the writting mode overwrite/append
-	def writeDBGCVector(self, fileName='DBGCVectors.xlsx', overwrite=True):
+	def writeDBGCVector(self, fileName='', overwrite=True):
 		if not os.path.exists('DBGCVectors'):
 			os.mkdir('DBGCVectors')
 		os.chdir('DBGCVectors')
@@ -228,4 +228,7 @@ class groupCounter:
 
 		wbw.save(fileName)
 		os.chdir('../')
+		src = "DBGCVectors/"+ fileName
+		dst = "static/DBGCVectors/"+fileName
+		shutil.copyfile(src,dst)
 		print 'Write group vector successfully!'
