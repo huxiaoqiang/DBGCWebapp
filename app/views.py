@@ -25,6 +25,16 @@ def output(request):
     }
     return render_to_response('output.html',context_instance = RequestContext(request,context))
 
+def help(request):
+    request.META["CSRF_COOKIE_USED"] = True
+    context = {}
+    return render_to_response('help.html',context_instance = RequestContext(request,context))
+
+def aboutus(request):
+    request.META["CSRF_COOKIE_USED"] = True
+    context = {}
+    return render_to_response('aboutus.html',context_instance = RequestContext(request,context))
+
 def uploadFile(request):
     re = dict()
     if request.method == 'POST':
