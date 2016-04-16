@@ -13,7 +13,42 @@
 {% include "header.html" %}
     <div id='wrap'>
       <div class="column clearfix" id="main-container">
-          在这里添加
+        <p>We should add the text DBGC for returning to the home page.</p>
+
+        <p>FAQs</p>
+        <p>This list should be made into a contracted list. Clike an arrow -> more contend appears, which are hidden by default.</p>
+  		  
+        <p>1. What is DBGC used for?</p>
+  			<p>thermodynamic properties prediction</p>
+  			<p>Currently This is just an illustraction for DBGC method. Only enthalpy for alkanes and alkenes, and their radical are supported.
+  			In the future, we will try to include entropy and heat capacity prediction.</p>
+        
+        <p>2. what is group additivity (GA)?</p>
+        <p>Benson group THERM combustion mechnism</p>
+        <p>we are trying to develop a automotic group contribution method, although it is not sinple additivity.</p>
+
+        <p>3. What's the advantages of DBGC method?</p>
+        <p>Automatic, systematic, and adaptive.</p>
+  		  
+        <p>4. How to use this DBGC web app?</p>
+        <p>Curretly two types of input formats are supported. One is upload the .gjf file. The other is to enter the geometry directly. In the future, we will support the input to connectivity.</p>
+        
+        <p>5. How does DBGC work?</p>
+  			<p>distance-based, two parts, more details see the paper</p>
+        <p>Training test set. Regression and ANN. code can be found at .github.</p>
+
+  		  <p>6. How to convert the geometry or connectivity into DBGC vectors?</p>
+        <p>recognize the group, count the bonds, transfer with exp(-3dij). The code can be found in at .github.</p>
+
+        <p>7. What is used as the database currently? </p>
+        <p>the database consisted of C3-C13 alkanes C3-C10 alkenes C2-C9 alkenyl radicals C3-C10 alkyl radicals. The database can be downloaded at .github. A gui will be provided on this site to view the database.</p>
+
+        <p>8. How to construct my own database?</p>
+        <p>collect the experimental data, however limited. Calculation is recommended. Our vision, computation is becoming cheaper and cheaper. We have relatively accurate theoretical methods. 
+        Assistant code at .github for conformational analysis and quantum computation result extraction.</p>
+
+        <p>10. Is this an open-source program?</p>
+        <p>Certainly! Open-source lisence. The source code can be downloaded at .github.</p>  
       </div>
     </div>
 {% include "footer.html" %}
