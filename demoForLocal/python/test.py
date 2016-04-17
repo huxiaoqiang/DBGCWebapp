@@ -1,6 +1,7 @@
 import groupCounter
 import os
 
+
 counterA = groupCounter.groupCounter()
 
 # i=34
