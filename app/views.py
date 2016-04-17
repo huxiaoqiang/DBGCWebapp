@@ -7,7 +7,10 @@ import matlab.engine
 import json
 from . import groupCounter
 import time
+import os
+
 import groupCounter
+
 
 # Create your views here.
 eng = matlab.engine.start_matlab()
@@ -67,7 +70,7 @@ def uploadFile(request):
                 re['error'] = error(1)
 
                 # write output data to excel
-                writeDataToExcel(data, vectorFileName)
+                groupCounter.writeDataToExcel(data, os.path.join('static/DBGCVectors',vectorFileName))
 
                 request.session['vectorFileName'] = vectorFileName
                 request.session['data'] = data
