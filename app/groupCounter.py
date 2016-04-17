@@ -45,8 +45,6 @@ class groupCounter:
 		self.formula = ''
 		self.atomsNum = 0
 
-		self.groupLib = []
-
 	# fileName is the name of the input gjf file
 	# directory containing this gjf file. it is needed in case that the gjf file is not in the same directory as this .py code
 	# moleculeLabel is the unique label or name of this molecule for convenient reference, such as ethane or pentane

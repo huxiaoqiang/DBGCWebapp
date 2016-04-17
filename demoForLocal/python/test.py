@@ -1,6 +1,7 @@
 import groupCounter
 import os
 
+groupCounter.groupCounter.readGroupTemplate()
 
 counterA = groupCounter.groupCounter()
 
@@ -10,7 +11,9 @@ counterA = groupCounter.groupCounter()
 # counterA.writeDBGCVector(overwrite=False)
 
 counterA.readGjfFile(fileName='banana_090.gjf', directory='Gjfs',moleculeLabel='testmole')
-counterA.readGroupTemplate()
+print groupCounter.groupCounter.groupLib
+print counterA.groupLib
+# counterA.readGroupTemplate()
 counterA.writeDBGCVector(overwrite=True)
 counterA.mole.generateMOLFile()
 
