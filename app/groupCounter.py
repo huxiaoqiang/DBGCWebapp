@@ -45,8 +45,6 @@ class groupCounter:
 		self.formula = ''
 		self.atomsNum = 0
 
-		self.groupLib = []
-
 	# fileName is the name of the input gjf file
 	# directory containing this gjf file. it is needed in case that the gjf file is not in the same directory as this .py code
 	# moleculeLabel is the unique label or name of this molecule for convenient reference, such as ethane or pentane
@@ -137,6 +135,7 @@ class groupCounter:
 	# this function is used read the template containing the names of groups and group interactions in current database
 	# use this function once before writeDBGCVector, because the dimension of the GBGC vector should be determined in advance
 	# the default name of the template file is groupTemplate.xlsx
+	@classmethod
 	def readGroupTemplate(self, fileName='groupTemplate.xlsx'):
 		BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 		groupTemplate = BASE_DIR + '/inputfile/'+fileName
@@ -232,3 +231,22 @@ class groupCounter:
 		dst = "static/DBGCVectors/"+fileName
 		shutil.copyfile(src,dst)
 		print 'Write group vector successfully!'
+
+# this function is used to write MATLAB output (enthalpy) into excel (DBGCVectors.xlsx)
+# input data should be a list object
+# fileName is name of excel or a joined path of directory and file name 
+def writeDataToExcel(data, fileName):
+	if os.path.exists(fileName):
+		wbw = openpyxl.load_workbook(fileName)
+		shw = wbw.get_sheet_by_name('inputVectors')
+		speciesNumber = shw.cell(row=2, column=2).value
+		vectorDimension = shw.cell(row=2, column=4).value
+		if speciesNumber != len(data):
+			print 'Error! The number of output data is not as the same as the that of species!'
+		tmp_row = 4
+		for (index, item) in enumerate(data):
+			shw.cell(row=tmp_row, column=vectorDimension+9).value = item
+			tmp_row += 1
+	else:
+		print 'Error! File ' + fileName + ' does not exists!'
+	wbw.save(fileName)	

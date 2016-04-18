@@ -57,11 +57,24 @@ eleColorDict={'H': 1, 'He': 2, 'C': 3, 'O': 4, 'N': 5}
 # 'O': {'H': [1.0], 'C': [3.0, 2.0, 1.5, 1.0], 'O': [3.0, 2.0, 1.5, 1.0]}
 # }
 
-# version 1.3 used for new group additivity
+# # version 1.3 used for new group additivity, the distance is loose due to the consideration of TS, thus not needed currently
+# bondDisDict={
+# 'H': {'H': [0.6350], 'C': [1.5], 'O': [1.5]},
+# 'C': {'H': [1.5], 'C': [1.24740, 1.3785, 1.4475, 2.1], 'O': [1.15829, 1.287, 1.34419, 2.27]},
+# 'O': {'H': [1.5], 'C': [1.15829, 1.287, 1.34419, 2.27], 'O': [1.0692, 1.18800, 1.2408, 1.9]}
+# }
+
+# bondOrderDict={
+# 'H': {'H': [1.0], 'C': [1.0], 'O': [1.0]},
+# 'C': {'H': [1.0], 'C': [3.0, 2.0, 1.5, 1.0], 'O': [3.0, 2.0, 1.5, 1.0]},
+# 'O': {'H': [1.0], 'C': [3.0, 2.0, 1.5, 1.0], 'O': [3.0, 2.0, 1.5, 1.0]}
+# }
+
+# version 1.4 used for new group additivity, without condideration of transition state (TS)
 bondDisDict={
-'H': {'H': [0.6350], 'C': [1.5], 'O': [1.5]},
-'C': {'H': [1.5], 'C': [1.24740, 1.3785, 1.4475, 2.1], 'O': [1.15829, 1.287, 1.34419, 2.27]},
-'O': {'H': [1.5], 'C': [1.15829, 1.287, 1.34419, 2.27], 'O': [1.0692, 1.18800, 1.2408, 1.9]}
+'H': {'H': [0.6350], 'C': [1.1342], 'O': [1.01760]},
+'C': {'H': [1.1342], 'C': [1.24740, 1.3785, 1.4475, 1.65], 'O': [1.15829, 1.287, 1.34419, 1.5158]},
+'O': {'H': [1.01760], 'C': [1.15829, 1.287, 1.34419, 1.5158], 'O': [1.0692, 1.18800, 1.2408, 1.39919]}
 }
 
 bondOrderDict={
@@ -351,7 +364,7 @@ class molecule:
 		tmp_group2 = bond.atom2.dividedGraph2([bond.atom1])
 		tmp_set = set(comple_group1) - set(tmp_group2)
 		if len(tmp_set) > 0:
-			print 'Error! There are some atoms with labels ' + str([x.label for x in tmp_set]) + ' neither connected with ' + str(bond.atom1.label) + ' nor ' + str(bond.atom2.label) + '!'
+			print 'Error! There are some atoms with labels ' + str([x.label for x in tmp_set]) + ' neither connected with ' + str(bond.atom1.label) + ' nor ' + str(bond.atom2.label) + '!' + self.label
 			result = -1
 		tmp_set = set(tmp_group2) - set(comple_group1)
 		if len(tmp_set) > 0:
@@ -496,6 +509,57 @@ class molecule:
 					self.atoms[j].addBond(tmp_bond)
 					self.bonds.append(tmp_bond)
 
+		# check is the input molecule is a tidy one (if hydrogen is too close to more than one heavy atom when drawing scratch, the connectivity recognition would be wrong)
+		# currently only check of C-H bond is supported
+		tidyMolecule = True
+		tmp_questionHydrogen = []
+		for tmp_atom in self.atoms:
+			if tmp_atom.symbol == 'H':
+				sumBondOrder = sum([tmp_bond.bondOrder for tmp_bond in tmp_atom.bonds]) 
+				if sumBondOrder >= 2:
+					tidyMolecule = False
+					tmp_questionHydrogen.append(tmp_atom)
+					for (tmp_childIndex, tmp_child) in enumerate(tmp_atom.children):
+						tmp_child.removeBond(tmp_atom.bonds[tmp_childIndex])
+						self.bonds.remove(tmp_atom.bonds[tmp_childIndex])
+		if tmp_questionHydrogen:
+			print 'Warning! The molecule structure is not tidy. There is at least one H atom connected to two atoms with single bonds. I optimized the connectivity automatically, but you had better check if the result is what you want.', self.label
+		for tmp_atom in tmp_questionHydrogen:
+			bonds_saturateC = []
+			print tmp_atom.label
+			for (tmp_childIndex, tmp_child) in enumerate(tmp_atom.children):
+				if tmp_child.symbol == 'C':
+					sumBondOrder = sum([tmp_bond.bondOrder for tmp_bond in tmp_child.bonds])
+					if sumBondOrder > 4:
+						print 'Error! The molecule is not tidy enough! Ther is a queationable carbon atom, the total bond order of which is more than 4!', tmp_child.label
+						break
+					elif sumBondOrder == 4:
+						bonds_saturateC.append(tmp_atom.bonds[tmp_childIndex])
+			for tmp_bond in bonds_saturateC:
+				tmp_atom.removeBond(tmp_bond)
+			closestIndex = 0
+			tmp_distance = 10
+			for (tmp_childIndex, tmp_child) in enumerate(tmp_atom.children):
+				if tmp_distance > tmp_atom.distance(tmp_child):
+					tmp_distance = tmp_atom.distance(tmp_child)
+					closestIndex = tmp_childIndex
+			tmp_child = tmp_atom.children[closestIndex]
+			tmp_bond = tmp_atom.bonds[closestIndex]
+			tmp_atom.removeAllBonds()
+			tmp_atom.addBond(tmp_bond)
+			tmp_child.addBond(tmp_bond)
+			self.bonds.append(tmp_bond)			
+
+		if tidyMolecule == False:
+			for tmp_atom in self.atoms:
+				if tmp_atom.symbol == 'H':
+					sumBondOrder = sum([tmp_bond.bondOrder for tmp_bond in tmp_atom.bonds]) 
+					if sumBondOrder >= 2:
+						print 'Error! The molecule is not tidy enough! There is a hydrogen connected with more than one heavy atoms!', tmp_atom.label
+				if tmp_atom.symbol == 'C':
+					sumBondOrder = sum([tmp_bond.bondOrder for tmp_bond in tmp_atom.bonds])
+					if sumBondOrder > 4:
+						print 'Error! The molecule is not tidy enough! Ther is a queationable carbon atom, the total bond order of which is more than 4!', tmp_atom.label
 
 	def generateRotScanFile(self, fixedBond=[], rotCH3=True):
 		elementRanking = {'C': 1, 'O':2, 'N':3, 'H':4}
@@ -1035,6 +1099,7 @@ class molecule:
 	# return the conventioanl group additivity vector
 	# i.e. groups, GAUCHE, 1-5 interaction
 	# the vector returned is a dict
+	# currently only used for alkane molecules
 	def getConventionalGAVector(self):
 		tmp_groupVector = {}
 		n = len(self.atoms)
@@ -1096,6 +1161,77 @@ class molecule:
 						tmp_groupVector['1-5_interaction'] += oneFiveIntTable[tmp_atom.nonHChildrenNum()-1][tmp_grandson.nonHChildrenNum()-1]
 		return tmp_groupVector
 
+	# used to get the coonectivity information of atoms in RMG format
+	# currently only used for alkane and alkene molecules and radicals, only single bond and double bond is considered. cannot used for 1.5 bond 
+	def getRMGConnectivity(self):
+		bondDict = {1: 'S', 1.5: '1.5', 2: 'D'}
+
+		connectInfo = self.label + '\n'
+		# get all non-H atom list
+		allAtoms = []
+		for tmp_atom in self.atoms:
+			if tmp_atom.symbol != 'H':
+				allAtoms.append(tmp_atom)
+		for (atomIndex, tmp_atom) in enumerate(allAtoms):
+			# only carbon atom considered here. If other heavy atom exists in the system, radicalIndex should be kept consistent with the new element. 
+			radicalIndex = 4
+			tmp_str = ''
+			for (childIndex, tmp_child) in enumerate(tmp_atom.children):
+				tmp_bondOrder = tmp_atom.bonds[childIndex].bondOrder
+				radicalIndex -= tmp_bondOrder
+				if tmp_child.symbol != 'H':
+					if tmp_bondOrder not in bondDict.keys():
+						print 'Error! The bondOrder is not in bondDict: ' + str(tmp_bondOrder)
+					tmp_str += '{' + str(allAtoms.index(tmp_child)+1) + ',' + bondDict[tmp_bondOrder] + '} '
+			if radicalIndex-int(radicalIndex) == 0:
+				connectInfo += str(atomIndex+1) + ' ' + tmp_atom.symbol + ' ' + str(int(radicalIndex)) + ' ' + tmp_str + '\n' 
+			else:
+				connectInfo += str(atomIndex+1) + ' ' + tmp_atom.symbol + ' ' + '%.1f'%radicalIndex + ' ' + tmp_str + '\n'
+		return connectInfo
+
+	# used to generate mol file for JMOL display
+	# .mol is similar to .sdf. MDL MOL (or sometimes molfile), for single molecules, and MDL SDF (or sometimes SDfile) for multiple molecules and associated data fields. Ref: http://molmatinf.com/whynotmolsdf.html.
+	# C-C bond with order of 1.5 is defined as bond type 5 in JMOL for non acromatic species. For acromatic ones, it's defined as type 4. Ref: http://wiki.jmol.org/index.php/Support_for_bond_orders
+	# currently only bondOrder 4 is used, acromatic species hasn't been taken into consideration
+	# currently radical or not, or the spinMultiplicity is not added in the file, because of no need for display, temporarily. Ref: https://docs.chemaxon.com/display/FF/MDL+MOLfiles,+RGfiles,+SDfiles,+Rxnfiles,+RDfiles+formats
+	def generateMOLFile(self, directory='', moleculeLabel=''):
+		if directory == '':
+			directory = 'MOLFiles'
+		if not os.path.exists(directory):
+			os.mkdir(directory)
+		if moleculeLabel == '':
+			moleculeLabel = self.label
+
+		resonance = 0
+
+		# write .mol file with connectivity
+		fw = file(os.path.join(directory, moleculeLabel+'.mol'), 'w')
+		fw.write(moleculeLabel + '''
+
+generated based on coordinates by chem.py
+''' + '%3d'%self.getAtomsNum() + '%3d'%len(self.bonds) + '  0  0  0  0  0  0  0  0999 V2000\n')
+		for tmp_atom in self.atoms:
+			fw.write('%10.4f'%tmp_atom.coordinate[0] + '%10.4f'%tmp_atom.coordinate[1] + '%10.4f'%tmp_atom.coordinate[2] + '%2s'%tmp_atom.symbol + '   0  0  0  0  0  0  0  0  0  0  0  0\n')
+		for tmp_atom in self.atoms:
+			tmp_bonds = {}
+			for (index_child, tmp_child) in enumerate(tmp_atom.children):
+				if tmp_child.label > tmp_atom.label:
+					tmp_bondOrder = tmp_atom.bonds[index_child].bondOrder
+					if tmp_bondOrder - int(tmp_bondOrder) > 1e-3:
+						resonance += 1
+						tmp_bondOrder = 5
+						if resonance > 2:
+							print 'Error! The variable resonance is larger than 2!'
+					if np.abs(tmp_bondOrder - round(tmp_bondOrder)) > 1e-3:
+						print 'Error! The bond order used in .mol file is not an integer!'
+					tmp_bonds[tmp_child.label] = int(round(tmp_bondOrder))
+			for tmp_label in sorted(tmp_bonds.keys()):
+				fw.write('%3d'%tmp_atom.label + '%3d'%tmp_label + '%3d'%int(tmp_bonds[tmp_label]) + '  0  0  0  0\n')
+
+		fw.write('''M  END
+
+			''')
+		fw.close()
 
 	# get the distance matrix describling the distance between different groups
 	# this is not the same as a TSP (travel saleman problem) solver
@@ -1244,17 +1380,37 @@ class atom:
 				self.children.append(bond.atom2)
 				self.bonds.append(bond)
 			else:
-				print 'this bond has been added!\t' + str(self.label) + ' ' + str(bond.atom2.label)
+				print 'this bond has been added before!\t' + str(self.label) + ' ' + str(bond.atom2.label)
 				pass
 		elif bond.atom1.label != self.label and bond.atom2.label == self.label:
 			if bond.atom1 not in self.children:
 				self.children.append(bond.atom1)
 				self.bonds.append(bond)
 			else:
-				print 'this bond has been added!\t' + str(self.label) + ' ' + str(bond.atom1.label)
+				print 'this bond has been added before!\t' + str(self.label) + ' ' + str(bond.atom1.label)
 				pass
 		else:
 			print 'Error! There is a wrong bond between ' + str(bond.atom1.label) + ' and ' + str(bond.atom2.label) + ' on atom ' + str(self.label) + '.'
+
+	def removeBond(self, bond):
+		if bond.atom1.label == self.label and bond.atom2.label != self.label:
+			if bond.atom2 in self.children:
+				self.children.remove(bond.atom2)
+				self.bonds.remove(bond)
+			else:
+				print 'this bond does not exsit between the two atoms!\t' + str(self.label) + ' ' + str(bond.atom2.label)
+		elif bond.atom1.label != self.label and bond.atom2.label == self.label:
+			if bond.atom1 in self.children:
+				self.children.remove(bond.atom1)
+				self.bonds.remove(bond)
+			else:
+				print 'this bond does not exsit between the two atoms!\t' + str(self.label) + ' ' + str(bond.atom1.label)
+		else:
+			print 'Error! There is a wrong bond between ' + str(bond.atom1.label) + ' and ' + str(bond.atom2.label) + ' on atom ' + str(self.label) + '.'				
+
+	def removeAllBonds(self):
+		while self.bonds:
+			self.removeBond(self.bonds[0])
 
 	# this function is used to get the left connected part after prohibiting the route to tabuAtomPool, but without double check. 
 	# It's unknown whether the left part is a part or not. It is also a arbitary division if there is a ring structure in the molecule.

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>help</title>
+    <link rel="stylesheet" href="/static/css/base.css" />
+    <link rel="stylesheet" href="/static/lib/bootstrap/bootstrap.min.css" />
+
+    <script src="/static/lib/jquery-2.1.4.js"></script>
+    <script src="/static/lib/bootstrap/bootstrap.min.js"></script>
+</head>
+<body>
+{% include "header.html" %}
+    <div id='wrap'>
+      <div class="column clearfix" id="main-container" style="font-family:'Sentinel A', 'Sentinel B', Georgia, serif">
+        <a href="/">< homepage</a>
+
+        <h1 style="text-align: center;">FAQs</h1>
+        <!--<p>This list should be made into a contracted list. Clike an arrow -> more contend appears, which are hidden by default.</p>-->
+  		  
+        <!--<p>1. What is DBGC used for?</p>-->
+  			<!--<p>thermodynamic properties prediction</p>-->
+  			<!--<p>Currently This is just an illustraction for DBGC method. Only enthalpy for alkanes and alkenes, and their radical are supported.-->
+  			<!--In the future, we will try to include entropy and heat capacity prediction.</p>-->
+        <!---->
+        <!--<p>2. what is group additivity (GA)?</p>-->
+        <!--<p>Benson group THERM combustion mechnism</p>-->
+        <!--<p>we are trying to develop a automotic group contribution method, although it is not sinple additivity.</p>-->
+
+        <!--<p>3. What's the advantages of DBGC method?</p>-->
+        <!--<p>Automatic, systematic, and adaptive.</p>-->
+  		  <!---->
+        <!--<p>4. How to use this DBGC web app?</p>-->
+        <!--<p>Curretly two types of input formats are supported. One is upload the .gjf file. The other is to enter the geometry directly. In the future, we will support the input to connectivity.</p>-->
+        <!---->
+        <!--<p>5. How does DBGC work?</p>-->
+  			<!--<p>distance-based, two parts, more details see the paper</p>-->
+        <!--<p>Training test set. Regression and ANN. code can be found at .github.</p>-->
+
+  		  <!--<p>6. How to convert the geometry or connectivity into DBGC vectors?</p>-->
+        <!--<p>recognize the group, count the bonds, transfer with exp(-3dij). The code can be found in at .github.</p>-->
+
+        <!--<p>7. What is used as the database currently? </p>-->
+        <!--<p>the database consisted of C3-C13 alkanes C3-C10 alkenes C2-C9 alkenyl radicals C3-C10 alkyl radicals. The database can be downloaded at .github. A gui will be provided on this site to view the database.</p>-->
+
+        <!--<p>8. How to construct my own database?</p>-->
+        <!--<p>collect the experimental data, however limited. Calculation is recommended. Our vision, computation is becoming cheaper and cheaper. We have relatively accurate theoretical methods. -->
+        <!--Assistant code at .github for conformational analysis and quantum computation result extraction.</p>-->
+
+        <!--<p>10. Is this an open-source program?</p>-->
+        <!--<p>Certainly! Open-source lisence. The source code can be downloaded at .github.</p>  -->
+
+
+      <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingOne">
+      <h4 class="panel-title">
+        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+          <h3>1. What is DBGC used for?</h3>
+        </a>
+      </h4>
+    </div>
+    <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+      <div class="panel-body">
+        <p>thermodynamic properties prediction</p>
+        <p>Currently This is just an illustraction for DBGC method. Only enthalpy for alkanes and alkenes, and their radical are supported.
+        In the future, we will try to include entropy and heat capacity prediction.</p>
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingTwo">
+      <h4 class="panel-title">
+        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+          <h3>2. what is group additivity (GA)?</h3>
+        </a>
+      </h4>
+    </div>
+    <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+      <div class="panel-body">
+        <p>Benson group THERM combustion mechnism</p>
+        <p>we are trying to develop a automotic group contribution method, although it is not sinple additivity.</p>
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingThree">
+      <h4 class="panel-title">
+        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+          <h3>3. What's the advantages of DBGC method?</h3>
+        </a>
+      </h4>
+    </div>
+    <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+      <div class="panel-body">
+        <p>Automatic, systematic, and adaptive.</p>
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingFour">
+      <h4 class="panel-title">
+        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+          <h3>4. How to use this DBGC web app?</h3>
+        </a>
+      </h4>
+    </div>
+    <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
+      <div class="panel-body">
+        <p>Curretly two types of input formats are supported. One is upload the .gjf file. The other is to enter the geometry directly. In the future, we will support the input to connectivity.</p>      </div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingFive">
+      <h4 class="panel-title">
+        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+          <h3>5. How does DBGC work?</h3>
+        </a>
+      </h4>
+    </div>
+    <div id="collapseFive" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFive">
+      <div class="panel-body">
+        <p>distance-based, two parts, more details see the paper</p>
+        <p>Training test set. Regression and ANN. code can be found at .github.</p>
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingSix">
+      <h4 class="panel-title">
+        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+          <h3>6. How to convert the geometry or connectivity into DBGC vectors?</h3>
+        </a>
+      </h4>
+    </div>
+    <div id="collapseSix" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingSix">
+      <div class="panel-body">
+        <p>recognize the group, count the bonds, transfer with exp(-3dij). The code can be found in at .github.</p>
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingSeven">
+      <h4 class="panel-title">
+        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
+          <h3>7. What is used as the database currently?</h3>
+        </a>
+      </h4>
+    </div>
+    <div id="collapseSeven" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingSeven">
+      <div class="panel-body">
+      <p>the database consisted of C3-C13 alkanes C3-C10 alkenes C2-C9 alkenyl radicals C3-C10 alkyl radicals. The database can be downloaded at .github. A gui will be provided on this site to view the database.</p>
+
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingEight">
+      <h4 class="panel-title">
+        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseEight" aria-expanded="false" aria-controls="collapseEight">
+          <h3>8. How to construct my own database?</h3>
+        </a>
+      </h4>
+    </div>
+    <div id="collapseEight" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingEight">
+      <div class="panel-body">
+        <p>collect the experimental data, however limited. Calculation is recommended. Our vision, computation is becoming cheaper and cheaper. We have relatively accurate theoretical methods.
+        Assistant code at .github for conformational analysis and quantum computation result extraction.</p>
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingNine">
+      <h4 class="panel-title">
+        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseNine" aria-expanded="false" aria-controls="collapseNine">
+          <h3>9. Is this an open-source program?</h3>
+        </a>
+      </h4>
+    </div>
+    <div id="collapseNine" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingNine">
+      <div class="panel-body">
+      <p>Certainly! Open-source lisence. The source code can be downloaded at .github.</p>
+      </div>
+    </div>
+  </div>
+</div>
+ </div>
+    </div>
+{% include "footer.html" %}
+</body>
+</html>

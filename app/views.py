@@ -7,6 +7,10 @@ import matlab.engine
 import json
 from . import groupCounter
 import time
+import os
+
+import groupCounter
+
 
 # Create your views here.
 eng = matlab.engine.start_matlab()
@@ -25,6 +29,16 @@ def output(request):
     }
     return render_to_response('output.html',context_instance = RequestContext(request,context))
 
+def help(request):
+    request.META["CSRF_COOKIE_USED"] = True
+    context = {}
+    return render_to_response('help.html',context_instance = RequestContext(request,context))
+
+def aboutus(request):
+    request.META["CSRF_COOKIE_USED"] = True
+    context = {}
+    return render_to_response('aboutus.html',context_instance = RequestContext(request,context))
+
 def uploadFile(request):
     re = dict()
     if request.method == 'POST':
@@ -32,6 +46,9 @@ def uploadFile(request):
         if file_obj:
             time_now = time.strftime('%Y%m%d%H%M%S',time.localtime(time.time()))
             vectorFileName =  'DBGCVectors'+time_now+'.xlsx'
+            # I suggest to read template firstly. Then we just need to read the Template file only once.
+            # I have defined the method readGroupTemplate() as a classmethod
+            groupCounter.groupCounter.readGroupTemplate()
             for f in file_obj:
                 if file_obj[f].size > 10000000:
                     re['error'] = error(5)
@@ -39,18 +56,21 @@ def uploadFile(request):
 
                 counterA = groupCounter.groupCounter()
                 counterA.readGjfFile(gjfFile=file_obj[f], moleculeLabel='test1')
-                counterA.readGroupTemplate()
+                # counterA.readGroupTemplate()
                 counterA.writeDBGCVector(fileName=vectorFileName,overwrite=False)
             try:
                 ret = eng.DBGCUseTrainedANN(vectorFileName)
                 if isinstance(ret,float):
-                    data = ret
+                    data = [ret]
                 else:
                     data = []
                     for item in ret:
                         data.append(item[0])
                 re['data'] = data
                 re['error'] = error(1)
+
+                # write output data to excel
+                groupCounter.writeDataToExcel(data, os.path.join('static/DBGCVectors',vectorFileName))
 
                 request.session['vectorFileName'] = vectorFileName
                 request.session['data'] = data
