@@ -9,10 +9,11 @@
     <script src="/static/lib/jquery-2.1.4.js"></script>
     <script src="/static/lib/bootstrap/bootstrap.min.js"></script>
     <script src="/static/js/index.js"></script>
-    <script type="text/javascript" src="/static/lib/JmolFolder/jmol-14.4.4_2016.03.25/jsmol/JSmol.min.js"></script>
+    <script type="text/javascript" src="/static/lib/JmolFolder/JSmol.min.js"></script>
 </head>
 
 <script type="text/javascript">
+var molecularInfo = new Array();
 ;(function() {
 
 // ?_USE=JAVA   ?_USE=SIGNED   ?_USE=HTML5
@@ -33,51 +34,58 @@ jmol_isReady = function(applet) {
 
 }
 
-InfoA = {
-	width: "100%",
-	height: "100%",
-	debug: false,
-	color: "white",
-	addSelectionOptions: false,
-	serverURL: "http://127.0.0.1/jsmol.php",
-	use: "HTML5",
-  coverImage: "",//"data/1hxw.png",        // initial image instead of applet
-  coverScript: "",	// special script for click of cover image (otherwise equal to script)
-  deferApplet: false,                  // wait to load applet until click
-  deferUncover: false,                 // wait to uncover applet until script completed
-  jarPath: "java",
-	j2sPath: "j2s",
-	jarFile: "JmolApplet.jar",
-	isSigned: false,
-	//disableJ2SLoadMonitor: true,
-	//disableInitialConsole: true,
-	readyFunction: jmol_isReady,
-	//defaultModel: "$dopamine",
-	script: "load MOLFiles/test1.mol;"
+moleculars = '{{mol}}';
+moleculars = moleculars.split('|');
+for(f in moleculars){
+    molecularInfo[f] = {
+        width: "100%",
+        height: "100%",
+        debug: false,
+        color: "white",
+        addSelectionOptions: false,
+        serverURL: "http://127.0.0.1/jsmol.php",
+        use: "HTML5",
+        coverImage: "",//"data/1hxw.png",        // initial image instead of applet
+        coverScript: "",	// special script for click of cover image (otherwise equal to script)
+        deferApplet: false,                  // wait to load applet until click
+        deferUncover: false,                 // wait to uncover applet until script completed
+        //jarPath: "java",
+        j2sPath: "/static/lib/JmolFolder/j2s",
+        //jarFile: "JmolApplet.jar",
+        isSigned: false,
+        //disableJ2SLoadMonitor: true,
+        //disableInitialConsole: true,
+        readyFunction: jmol_isReady,
+        //defaultModel: "$dopamine",
+        script: ""
+    };
+    molecularInfo[f].script = "load /static/mol/" + moleculars[f] + ".mol";
 }
-
-
 })();
 
 $(document).ready(function(){
-  $("#appletplace").html(Jmol.getAppletHtml("jmol1", InfoA));
+//$("#appletplace").html(Jmol.getAppletHtml("jmol1", molecularInfo[0]));
+  for(i in  molecularInfo){
+      $("#appletplace").append(Jmol.getAppletHtml("jmol1", molecularInfo[f]));
+  }
 });
+
 </script>
-$(document).ready(function(){
-  $("#appletplace").html(Jmol.getAppletHtml("jmol1", InfoA));
-});
 <body>
     {% include "header.html" %}
     <div id='wrap'>
           <div class="column clearfix" id="main-container">
-              <div id="appletplace" class="col-md-4">
-                <img src="">
-              </div>
-              <div class="col-md-8">
-                  <label>vector:</label><br>
-                  <span>{{ data }}</span><br>
-                  <label>enthe</label><br>
-                  <a href="/static/DBGCVectors/{{vectorFileName}}" download="DBGCVectors">{{vectorFileName}}</a>
+              <div class="info">
+                  <div class="col-md-6" style="height:400px;">
+                    <div id="appletplace" style="width:80%;height:80%;background-color:red" ></div>
+                  </div>
+                  <div class="col-md-6">
+                      <label>vector:</label><br>
+                      <span>{{ data }}</span><br>
+                      <label>enthe</label><br>
+                      <!--<label>{{ mol }}</label>-->
+                      <a href="/static/DBGCVectors/{{vectorFileName}}" download="DBGCVectors">{{vectorFileName}}</a>
+                  </div>
               </div>
           </div>
     </div>

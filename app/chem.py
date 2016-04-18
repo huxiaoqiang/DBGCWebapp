@@ -1195,17 +1195,18 @@ class molecule:
 	# currently only bondOrder 4 is used, acromatic species hasn't been taken into consideration
 	# currently radical or not, or the spinMultiplicity is not added in the file, because of no need for display, temporarily. Ref: https://docs.chemaxon.com/display/FF/MDL+MOLfiles,+RGfiles,+SDfiles,+Rxnfiles,+RDfiles+formats
 	def generateMOLFile(self, directory='', moleculeLabel=''):
+		BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 		if directory == '':
-			directory = 'MOLFiles'
-		if not os.path.exists(directory):
-			os.mkdir(directory)
+			directory = '/static/mol'
+		if not os.path.exists(BASE_DIR+directory):
+			os.mkdir(BASE_DIR+directory)
 		if moleculeLabel == '':
 			moleculeLabel = self.label
 
 		resonance = 0
 
 		# write .mol file with connectivity
-		fw = file(os.path.join(directory, moleculeLabel+'.mol'), 'w')
+		fw = file(os.path.join(BASE_DIR+directory, moleculeLabel+'.mol'), 'w')
 		fw.write(moleculeLabel + '''
 
 generated based on coordinates by chem.py
