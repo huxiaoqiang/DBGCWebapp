@@ -58,6 +58,7 @@ def uploadFile(request):
                 counterA.readGjfFile(gjfFile=file_obj[f], moleculeLabel='test1')
                 # counterA.readGroupTemplate()
                 counterA.writeDBGCVector(fileName=vectorFileName,overwrite=False)
+                counterA.mole.generateMOLFile()
             try:
                 ret = eng.DBGCUseTrainedANN(vectorFileName)
                 if isinstance(ret,float):
