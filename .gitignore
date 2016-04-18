@@ -1,2 +1,4 @@
 *.pyc
-/demoForLocal/*
+demoForLoca/*
+node_modules/*
+.idea/*
