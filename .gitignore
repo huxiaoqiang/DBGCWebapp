@@ -2,3 +2,5 @@
 demoForLoca/*
 node_modules/*
 .idea/*
+static/DBGCVectors/*
+static/mol/*
