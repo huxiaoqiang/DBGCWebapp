@@ -88,6 +88,48 @@ def uploadFile(request):
         re['error'] = error(3)
     return HttpResponse(json.dumps(re),content_type='application/json')
 
+
+def uploadStr(request):
+    re = dict()
+    if request.method == "POST":
+        str = request.POST.get('data','')
+        if str == '':
+            re['error'] = error(6)
+            return HttpResponse(json.dumps(re),content_type='application/json')
+        else:
+            time_now = time.strftime('%Y%m%d%H%M%S',time.localtime(time.time()))
+            groupCounter.groupCounter.readGroupTemplate()
+            counter = groupCounter.groupCounter()
+            counter.readGjfGeom(gjfGeom=str,moleculeLabel=time_now)
+            vectorFileName =  'DBGCVectors'+time_now+'.xlsx'
+            molFileName = 'DBGCVectors'+time_now+'.mol'
+            counter.writeDBGCVector(fileName=vectorFileName,overwrite=False)
+            counter.mole.generateMOLFile()
+
+            try:
+                ret = eng.DBGCUseTrainedANN(vectorFileName)
+                if isinstance(ret,float):
+                    data = [ret]
+                else:
+                    data = []
+                    for item in ret:
+                        data.append(item[0])
+                re['data'] = data
+                re['mol'] = [time_now]
+                re['error'] = error(1)
+
+                # write output data to excel
+                groupCounter.writeDataToExcel(data, os.path.join('static/DBGCVectors',vectorFileName))
+
+                request.session['vectorFileName'] = vectorFileName
+                request.session['data'] = data
+                request.session['mol'] = molFileName
+
+            except:
+                re['error'] = error(4)
+    else:
+        re['error'] = error(2)
+    return HttpResponse(json.dumps(re),content_type='application/json')
 def getOutput(request):
     re = dict()
     if request.method == 'GET':

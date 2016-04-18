@@ -15,9 +15,12 @@
               <div class="column clearfix" id="main-container">
                 <a href="/help">help</a>
                 <a href="/aboutus">aboutus</a>
+                  <p class="notice">Please choose the way to submit your ...</p>
+                  <input type="radio" name="file" value="file" checked="checked"><span class="choice">file</span>
+                  <input type="radio" name="file" value="string"><span class="choice">string</span>
                   <div class="home-page">
                       <!--<h2>DBGC</h2>-->
-                      <form name="UploadFileForm">
+                      <form name="UploadFileForm" id="UploadFileForm">
                           <input type="text" class="uploadFileText" placeholder="Choose File" disabled="disabled">
                           <div class="fileUpload btn btn-default">
                               <span class="glyphicon glyphicon-folder-open"></span>&nbsp;&nbsp;
@@ -54,6 +57,15 @@
                                 </rect>
                               </svg>
                             </div>
+                      </form>
+                      <form name="UploadStringForm" id="UploadStringForm">
+                          <div class="stringUpload">
+                            <textarea>
+
+                            </textarea>
+                            <input type="submit" name="String" class="submitString" value="submit">
+                          </div>
+
                       </form>
                       <p>The word "choose" should be taken place of with a button such like a directory.</p>
                       <p>add a link: How do we get the connectivity from gwometry?</p>
