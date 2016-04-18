@@ -5,6 +5,7 @@ urlpatterns = patterns('',
     # url(r'^$', 'DBGCWebapp.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
     url(r'file/upload$',views.uploadFile,name='uploadFile'),
+    url(r'str/upload$',views.uploadStr,name='uploadStr'),
     url(r'output/get$',views.getOutput,name='getOutput'),
 
 )
