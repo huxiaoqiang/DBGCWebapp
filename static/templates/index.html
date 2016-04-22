@@ -13,7 +13,6 @@
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
   })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
   ga('create', 'UA-76675313-1', 'auto');
   ga('send', 'pageview');
 
@@ -23,15 +22,12 @@
         {% include "header.html" %}
             <div id='wrap'>
               <div class="column clearfix" id="main-container">
-                 <img src="/static/image/logo4.png" class="logo" width="15%"/>
-                <a href="/help">Help</a>
-                <a href="/aboutus">About us</a>
-                  <p class="notice">Please choose the way to submit your ...</p>
-                  <input type="radio" name="file" value="file" checked="checked"><span class="choice">file</span>
-                  <input type="radio" name="file" value="string"><span class="choice">string</span>
                   <div class="home-page">
                       <h2>DBGC</h2>
                       <h3><strong>D</strong>istance-<strong>b</strong>ased <strong>G</strong>roup <strong>C</strong>ontribution</h3>
+                      <p class="notice">Please choose the way to submit your ...</p>
+                      <input type="radio" name="file" value="file" checked="checked"><span class="choice">file</span>
+                      <input type="radio" name="file" value="string"><span class="choice">string</span>
                       <form name="UploadFileForm" id="UploadFileForm">
                           <input type="text" class="uploadFileText" placeholder="Choose File" disabled="disabled">
                           <div class="fileUpload btn btn-default">
@@ -72,29 +68,29 @@
                       </form>
                       <form name="UploadStringForm" id="UploadStringForm">
                           <div class="stringUpload">
-                            <textarea>
+                            <textarea placeholder="input your ...">
 
                             </textarea>
-                            <input type="submit" name="String" class="submitString" value="submit">
+                            <input type="submit" name="String" class="submitString btn btn-primary" required autofocus value="submit">
                           </div>
 
                       </form>
-                      <p>add a link: How do we get the connectivity from gwometry?</p>
-                      <p>I am an input box for entering the geometry of species! can we draw a box like this? http://ww7.colorgrade.it/. I mean, to draw a box with visible linewidth</p>
-                      <p>Soon I will provide the function to parse connectivity directly.</p>
-                      <p>Why do we need the connectivity?</p>
-                      <p>Some simple introduction is needed to aim the user.</p>
-                      <p>An example file should be given.</p>
-                      <p>The out put value should hava a dimension.</p>
-                  </div>
-                  <p>This page is a simple illustration for distance-based group contribution method, which is used for theomodynamic prediction.</p>
-                  <p>The domain should be showed instead of the ip address.</p>
-                  <p>The layout of this page need to be decorated. can we make a site like http://friendsoftheweb.com/. To use the button for sliding to help and aboutus page. Or we can make a site like this, http://simonfosterdesign.com/home/homepage/a-moving-target/. We need a light bottom color. Or this, http://johannlucchini.com/, to draw a line. Or this one, http://paravelinc.com/work/.</p>
-                  <p>Some friendly link is needed. NIST, RMG, THERM.</p>
-                  <p>I will find a logo with better color.</p>
-                  <p>we need add a button for sharing to fb, twitter and other sites.</p>
-                  <p>time of latest update</p>
-                  <p>we shoudl add a google analytic code for tracking. </p>
+                      <!--<p>add a link: How do we get the connectivity from gwometry?</p>-->
+                      <!--<p>I am an input box for entering the geometry of species! can we draw a box like this? http://ww7.colorgrade.it/. I mean, to draw a box with visible linewidth</p>-->
+                      <!--<p>Soon I will provide the function to parse connectivity directly.</p>-->
+                      <!--<p>Why do we need the connectivity?</p>-->
+                      <!--<p>Some simple introduction is needed to aim the user.</p>-->
+                      <!--<p>An example file should be given.</p>-->
+                      <!--<p>The out put value should hava a dimension.</p>-->
+                  <!--</div>-->
+                  <!--<p>This page is a simple illustration for distance-based group contribution method, which is used for theomodynamic prediction.</p>-->
+                  <!--<p>The domain should be showed instead of the ip address.</p>-->
+                  <!--<p>The layout of this page need to be decorated. can we make a site like http://friendsoftheweb.com/. To use the button for sliding to help and aboutus page. Or we can make a site like this, http://simonfosterdesign.com/home/homepage/a-moving-target/. We need a light bottom color. Or this, http://johannlucchini.com/, to draw a line. Or this one, http://paravelinc.com/work/.</p>-->
+                  <!--<p>Some friendly link is needed. NIST, RMG, THERM.</p>-->
+                  <!--<p>I will find a logo with better color.</p>-->
+                  <!--<p>we need add a button for sharing to fb, twitter and other sites.</p>-->
+                  <!--<p>time of latest update</p>-->
+                  <!--<p>we shoudl add a google analytic code for tracking. </p>-->
 
               </div>
             </div>
