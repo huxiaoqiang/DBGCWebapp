@@ -23,11 +23,10 @@
 <body>
 {% include "header.html" %}
     <div id='wrap'>
-      <div class="column clearfix" id="main-container" style="font-family: 'Sentinel A', 'Sentinel B', Georgia, serif">
+      <div class="column clearfix" id="main-container">
         <p><font color="white">hi</font></p>
-        <a href="/">< homepage</a>
 
-        <h1 style="text-align: center;">FAQs</h1>
+        <h1>FAQs</h1>
         <!--<p>This list should be made into a contracted list. Clike an arrow -> more contend appears, which are hidden by default.</p>-->
   		  
         <!--<p>1. What is DBGC used for?</p>-->
@@ -62,7 +61,7 @@
         <!--<p>10. Is this an open-source program?</p>-->
         <!--<p>Certainly! Open-source lisence. The source code can be downloaded at .github.</p>  -->
 
-        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true" style="font-family: 'Times New Roman'">
+        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
 
           <div class="panel panel-default">
             <div class="panel-heading" role="tab" id="headingWebuse">
@@ -152,52 +151,105 @@
             <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
               <div class="panel-body">
                 <p>During thermodynamic property prediction for a molecule, all the user need to provide is the molecular scratch, which is the sketch drawn that specifies the connectivity of atoms. Then the web app would return the predicted standard enthalpy of formation and group contribution vector. Currently two types of input formats are supported. One is to upload the .gjf file on the <a href="http://DBGC.online">homepage</a>. An example file can be downloaded <a href="http://101.6.61.4:8888/static/examples/C14H30_example.gjf">here</a>. The other is to enter the geometry string directly on the <a href="http://DBGC.online">homepage</a>. An example is shown as follows.</p>
-                <p>-------------------example below----------------------------------</p>
-                <p>C                 -4.35374157   -1.76870746    0.00000000  </p>
-                <p>H                 -3.99708715   -2.77751746    0.00000000  </p>
-                <p>H                 -3.99706873   -1.26430927   -0.87365150  </p>
-                <p>H                 -5.42374157   -1.76869427    0.00000000  </p>
-                <p>C                 -3.84039935   -1.04275118    1.25740497  </p>
-                <p>C                 -2.30039935   -1.04277036    1.25740459  </p>
-                <p>C                 -1.78705713   -0.31656953    2.51466834  </p>
-                <p>C                 -0.24705713   -0.31664323    2.51469946  </p>
-                <p>C                  0.26628509    0.40955758    3.77196321  </p>
-                <p>H                 -0.09198423   -0.09354077    4.64571097  </p>
-                <p>H                  1.33628328    0.40785093    3.77294177  </p>
-                <p>H                 -0.08877111    1.41893052    3.77078991  </p>
-                <p>C                 -4.35374136   -1.76870813    2.51480964  </p>
-                <p>H                 -3.73273765   -2.61660163    2.71563543  </p>
-                <p>H                 -4.32501454   -1.09987010    3.34951345  </p>
-                <p>H                 -5.36014448   -2.09405111    2.35293094  </p>
-                <p>C                 -4.35371537    0.40918086    1.25740516  </p>
-                <p>H                 -3.77158205    0.99328855    0.57561412  </p>
-                <p>H                 -5.37979168    0.42472188    0.95437729  </p>
-                <p>H                 -4.26642703    0.81834161    2.24222404  </p>
-                <p>C                 -1.78705702   -0.31705788   -0.00014105  </p>
-                <p>H                 -1.79784779    0.73952684    0.16841838  </p>
-                <p>H                 -0.78733312   -0.63426494   -0.21187627  </p>
-                <p>H                 -2.41931741   -0.55220696   -0.83071417  </p>
-                <p>C                 -1.78708456   -2.49470281    1.25768607  </p>
-                <p>H                 -1.86785442   -2.90151019    2.24403488  </p>
-                <p>H                 -2.37369598   -3.08044190    0.58115318  </p>
-                <p>H                 -0.76303250   -2.51096007    0.94792311  </p>
-                <p>C                 -2.30045138   -1.04224572    3.77221373  </p>
-                <p>H                 -3.21563541   -0.59175830    4.09532251  </p>
-                <p>H                 -2.47164830   -2.07351173    3.54399888  </p>
-                <p>H                 -1.57077924   -0.96567048    4.55106853  </p>
-                <p>C                 -2.30032091    1.13538096    2.51435501  </p>
-                <p>H                 -1.57681491    1.76930359    2.98294990  </p>
-                <p>H                 -2.45785001    1.45819511    1.50644847  </p>
-                <p>H                 -3.22287648    1.18748045    3.05387041  </p>
-                <p>C                  0.26633589    0.40903254    1.25715333  </p>
-                <p>H                  1.21435862    0.85866685    1.46687193  </p>
-                <p>H                  0.37423681   -0.29465941    0.45835734  </p>
-                <p>H                 -0.43287980    1.16729329    0.97248150  </p>
-                <p>C                  0.26620697   -1.76859360    2.51501297  </p>
-                <p>H                 -0.42970953   -2.39291009    3.03542544  </p>
-                <p>H                  0.36769596   -2.11116686    1.50642805  </p>
-                <p>H                  1.21735560   -1.81048978    3.00333766  </p>
-                <p>-------------------example above----------------------------------</p>
+                -                <p class="example-line">----------------------------------example below----------------------------------</p>
+            <table class="table">
+              <tr>
+                <th scope="row">C</th>
+                <td>-4.35374157</td>
+                <td>-1.76870746</td>
+                <td>0.00000000</td>
+              </tr>
+              <tr>
+                <th scope="row">H</th>
+                <td>-3.99708715</td>
+                <td>-2.77751746</td>
+                <td>0.00000000</td>
+              </tr>
+              <tr>
+                <th scope="row">H</th>
+                <td>-3.99706873</td>
+                <td>-1.26430927</td>
+                <td>-0.87365150</td>
+              </tr>
+              <tr>
+                <th scope="row">C</th>
+                <td>-5.42374157 </td>
+                <td>-1.76869427</td>
+                <td>0.00000000</td>
+              </tr>
+                                <tr>
+                <th scope="row">C</th>
+                <td>-4.35374157</td>
+                <td>-1.76870746</td>
+                <td>0.00000000</td>
+              </tr>                  <tr>
+                <th scope="row">C</th>
+                <td>-4.35374157</td>
+                <td>-1.76870746</td>
+                <td>0.00000000</td>
+              </tr>                  <tr>
+                <th scope="row">C</th>
+                <td>-4.35374157</td>
+                <td>-1.76870746</td>
+                <td>0.00000000</td>
+              </tr>                  <tr>
+                <th scope="row">C</th>
+                <td>-4.35374157</td>
+                <td>-1.76870746</td>
+                <td>0.00000000</td>
+              </tr>                  <tr>
+                <th scope="row">C</th>
+                <td>-4.35374157</td>
+                <td>-1.76870746</td>
+                <td>0.00000000</td>
+              </tr>                  <tr>
+                <th scope="row">C</th>
+                <td>-4.35374157</td>
+                <td>-1.76870746</td>
+                <td>0.00000000</td>
+              </tr>
+              <tr> <td>C</td>                 <td>-3.84039935</td>   <td>-1.04275118</td>    <td>1.25740497</td>  </tr>
+            <tr><td>C</td>                 <td>-2.30039935</td>   <td>-1.04277036</td>    <td>1.25740459</td></tr>
+            <tr><td>C</td>                 <td>-1.78705713</td>   <td>-0.31656953</td>    <td>2.51466834</td>  </tr>
+            <tr><td>C</td>                 <td>-0.24705713</td>   <td>-0.31664323</td>    <td>2.51469946</td></tr>
+            <tr><td>C</td>                  <td>0.26628509</td>    <td>0.40955758</td>    <td>3.77196321</td></tr>
+            <tr><td>H</td>                 <td>-0.09198423</td>   <td>-0.09354077</td>    <td>4.64571097</td></tr>
+            <tr><td>H</td>                  <td>1.33628328</td>    <td>0.40785093</td>    <td>3.77294177</td></tr>
+            <tr><td>H</td>                 <td>-0.08877111</td>    <td>1.41893052</td>    <td>3.77078991</td>  </tr>
+            <tr><td>C</td>                 <td>-4.35374136</td>   <td>-1.76870813</td>    <td>2.51480964</td>  </tr>
+            <tr><td>H</td>                 <td>-3.73273765</td>   <td>-2.61660163</td>    <td>2.71563543</td>  </tr>
+            <tr><td>H</td>                <td> -4.32501454</td>   <td>-1.09987010</td>    <td>3.34951345</td>  </tr>
+            <tr><td>H</td>                 <td>-5.36014448</td>   <td>-2.09405111</td>    <td>2.35293094</td>  </tr>
+            <tr><td>C</td>                 <td>-4.35371537</td>   <td>0.40918086</td>    <td>1.25740516</td>  </tr>
+            <tr><td>H</td>                 <td>-3.77158205</td>    <td>0.99328855</td>    <td>0.57561412</td>  </tr>
+            <tr><td>H</td>                 <td>-5.37979168</td>    <td>0.42472188</td>    <td>0.95437729</td>  </tr>
+            <tr><td>H</td>                 <td>-4.26642703</td>    <td>0.81834161</td>    <td>2.24222404</td>  </tr>
+            <tr><td>C</td>                 <td>-1.78705702</td>   <td>-0.31705788</td>   <td>-0.00014105</td>  </tr>
+            <tr><td>H</td>                 <td>-1.79784779</td>    <td>0.73952684</td>    <td>0.16841838</td>  </tr>
+            <tr><td>H</td>                 <td>-0.78733312</td>   <td>-0.63426494</td>   <td>-0.21187627</td>  </tr>
+            <tr><td>H</td>                 <td>-2.41931741 </td>  <td>-0.55220696</td>   <td>-0.83071417</td>  </tr>
+            <tr><td>C</td>                 <td>-1.78708456</td>   <td>-2.49470281</td>    <td>1.25768607</td>  </tr>
+            <tr><td>H</td>                 <td>-1.86785442</td>   <td>-2.90151019</td>    <td>2.24403488</td>  </tr>
+            <tr><td>H</td>                 <td>-2.37369598</td>   <td>-3.08044190</td>    <td>0.58115318</td>  </tr>
+            <tr><td>H</td>                 <td>-0.76303250</td>   <td>-2.51096007</td>    <td>0.94792311</td>  </tr>
+            <tr><td>C</td>                 <td>-2.30045138</td>   <td>-1.04224572</td>    <td>3.77221373</td>  </tr>
+            <tr><td>H</td>                 <td>-3.21563541</td>   <td>-0.59175830</td>    <td>4.09532251</td>  </tr>
+            <tr><td>H</td>                 <td>-2.47164830</td>   <td>-2.07351173</td>    <td>3.54399888</td>  </tr>
+            <tr><td>H</td>                 <td>-1.57077924</td>   <td>-0.96567048 </td>   <td>4.55106853</td>  </tr>
+            <tr><td>C</td>                 <td>-2.30032091</td>    <td>1.13538096 </td>   <td>2.51435501</td>  </tr>
+            <tr><td>H</td>                 <td>-1.57681491</td>    <td>1.76930359</td>    <td>2.98294990</td>  </tr>
+            <tr><td>H</td>                 <td>-2.45785001</td>    <td>1.45819511</td>    <td>1.50644847</td>  </tr>
+            <tr><td>H</td>                 <td>-3.22287648</td>    <td>1.18748045</td>    <td>3.05387041</td>  </tr>
+            <tr><td>C</td>                 <td> 0.26633589</td>    <td>0.40903254</td>    <td>1.25715333</td>  </tr>
+            <tr><td>H</td>                  <td>1.21435862</td>    <td>0.85866685</td>    <td>1.46687193</td>  </tr>
+            <tr><td>H</td>                  <td>0.37423681</td>   <td>-0.29465941</td>    <td>0.45835734</td>  </tr>
+            <tr><td>H</td>                 <td>-0.43287980</td>   <td> 1.16729329</td>    <td>0.97248150</td>  </tr>
+            <tr><td>C</td>                  <td>0.26620697</td>   <td>-1.76859360</td>    <td>2.51501297</td>  </tr>
+            <tr><td>H</td>                 <td>-0.42970953</td>   <td>-2.39291009</td>    <td>3.03542544</td>  </tr>
+            <tr><td>H</td>                  <td>0.36769596</td>   <td>-2.11116686</td>    <td>1.50642805</td>  </tr>
+            <tr><td>H</td>                  <td>1.21735560</td>   <td>-1.81048978</td>    <td>3.00333766</td>  </tr>
+            </table>
+            <p class="example-line">----------------------------------example above----------------------------------</p>
 				        <p>In the future, we will support the input of connectivity.</p>      
 				      </div>
             </div>
