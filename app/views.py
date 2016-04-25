@@ -28,6 +28,7 @@ def output(request):
     context = {
         'vectorFileName' : request.session.get('vectorFileName',''),
         'data':  request.session.get('data',''),
+        'formulalist' : request.session.get('formulalist',''),
         'mol' : request.session.get('mol','')
     }
     return render_to_response('output.html',context_instance = RequestContext(request,context))
@@ -54,21 +55,22 @@ def uploadFile(request):
             groupCounter.groupCounter.readGroupTemplate()
 
             filelist = ''
-
+            formulalist = ''
             for f in file_obj:
                 if file_obj[f].size > 10000000:
                     re['error'] = error(5)
                     return HttpResponse(json.dumps(re),content_type='application/json')
-
                 counterA = groupCounter.groupCounter()
 
-                counterA.readGjfFile(gjfFile=file_obj[f], moleculeLabel=time_now+file_obj[f]._name)
-                filelist = filelist + time_now+file_obj[f]._name.encode("utf-8") +'|'
+                counterA.readGjfFile(gjfFile=file_obj[f], moleculeLabel=time_now+'.'+file_obj[f]._name)
+                filelist = filelist + time_now+'.'+file_obj[f]._name.encode("utf-8") +'|'
 
                 # counterA.readGroupTemplate()
                 counterA.writeDBGCVector(fileName=vectorFileName,overwrite=False)
                 counterA.mole.generateMOLFile()
+                formulalist = formulalist + counterA.mole.formula.encode("utf-8") + '|'
             filelist = filelist[:-1]
+            formulalist = formulalist[:-1]
             try:
                 ret = eng.DBGCUseTrainedANN(vectorFileName)
                 if isinstance(ret,float):
@@ -88,7 +90,7 @@ def uploadFile(request):
                 request.session['vectorFileName'] = vectorFileName
                 request.session['data'] = data
                 request.session['mol'] = filelist
-
+                request.session['formulalist'] = formulalist
             except:
                 re['error'] = error(4)
     else:
