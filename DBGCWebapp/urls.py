@@ -11,5 +11,6 @@ urlpatterns = patterns('',
     url(r'^output/$','app.views.output'),
     url(r'aboutus$',"app.views.aboutus"),
     url(r'help$',"app.views.help"),
+    url(r'^favicon.ico$','django.views.generic.simple.redirect_to',{'url':'/static/image/favicon.ico'}),
     url(r'^.*','app.views.index'),
 )
