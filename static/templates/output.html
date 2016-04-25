@@ -48,6 +48,16 @@ jmol_isReady = function(applet) {
 
 moleculars = '{{mol}}';
 moleculars = moleculars.split('|');
+formulalist = '{{formulalist}}';
+formulalist = formulalist.split('|');
+filenamelist = new Array;
+for(var i = 0;i < moleculars.length; i++){
+    var temp = moleculars[i].split('.');
+    filenamelist.push(temp[1]);
+}
+
+
+data = {{data}};
 for(f in moleculars){
     molecularInfo[f] = {
         width: "100%",
@@ -77,24 +87,54 @@ for(f in moleculars){
 
 $(document).ready(function(){
 //$("#appletplace").html(Jmol.getAppletHtml("jmol1", molecularInfo[0]));
-  for(i in  molecularInfo){
-      $("#appletplace").append(Jmol.getAppletHtml("jmol1", molecularInfo[f]));
+  function render(){
+     $("#appletplace").html(Jmol.getAppletHtml("jmol1", molecularInfo[index]));
+     $(".input-file-name").html(filenamelist[index]);
+     $(".formula").html(formulalist[index]);
+     $(".Predicted-standard-enthalpy").html(data[index]);
+  };
+  var index = 0;
+  render();
+  if(molecularInfo.length==1){
+    $(".page").hide();
   }
+  $(".previous").click(function(){
+    if(index == 0){
+        return;
+    }
+    else{
+        index = index-1;
+        render();
+    }
+  });
+  $(".next").click(function(){
+    if(index == molecularInfo.length){
+        return;
+    }
+    else{
+        index = index+1;
+        render();
+    }
+  });
 });
 
 </script>
+
 <body>
     {% include "header.html" %}
     <div id='wrap'>
           <div class="column clearfix" id="main-container">
               <div class="info">
-                  <div class="col-md-6" style="height:400px;">
-                    <div id="appletplace" style="width:80%;height:80%;background-color:red" ></div>
+                  <div class="col-md-6 molecular">
+                    <div id="appletplace"></div>
+                    <span class="page previous glyphicon glyphicon-chevron-left">previous</span>
+                    <span class="page next glyphicon glyphicon-chevron-right">next</span>
                   </div>
+
                   <div class="col-md-6" style="margin-top: 50px">
-                      <label>Label:</label> input file name<br>
-                      <label>Formula:</label> mole.formula<br>
-                      <label>Predicted standard enthalpy of formation:</label> <span>{{ data }}</span> kcal/mol<br>
+                      <label>Input File Name:</label>&nbsp;<span class="input-file-name"></span><br>
+                      <label>Formula:</label>&nbsp;<span class="formula"></span><br>
+                      <label>Predicted standard enthalpy of formation:</label><br> <span class="Predicted-standard-enthalpy"></span> kcal/mol<br>
                       <label>Individual groups and group-group interaction:</label><br>
                       a table here<br>
                       <label>DBGC vector download:</label><br>
