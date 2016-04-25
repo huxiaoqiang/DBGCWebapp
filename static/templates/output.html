@@ -91,9 +91,12 @@ $(document).ready(function(){
                   <div class="col-md-6" style="height:400px;">
                     <div id="appletplace" style="width:80%;height:80%;background-color:red" ></div>
                   </div>
-                  <div class="col-md-6">
-                      <label>Predicted standard enthalpy of formation:</label><br>
-                      <span>{{ data }}</span> kcal/mol<br>
+                  <div class="col-md-6" style="margin-top: 50px">
+                      <label>Label:</label> input file name<br>
+                      <label>Formula:</label> mole.formula<br>
+                      <label>Predicted standard enthalpy of formation:</label> <span>{{ data }}</span> kcal/mol<br>
+                      <label>Individual groups and group-group interaction:</label><br>
+                      a table here<br>
                       <label>DBGC vector download:</label><br>
                       <!--<label>{{ mol }}</label>-->
                       <a href="/static/DBGCVectors/{{vectorFileName}}" download="DBGCVectors">{{vectorFileName}}</a>
