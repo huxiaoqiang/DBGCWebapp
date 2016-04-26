@@ -111,7 +111,7 @@ def uploadStr(request):
             counter = groupCounter.groupCounter()
             counter.readGjfGeom(gjfGeom=str,moleculeLabel=time_now)
             vectorFileName =  'DBGCVectors'+time_now+'.xlsx'
-            molFileName = 'DBGCVectors'+time_now+'.mol'
+            molFileName = time_now
             counter.writeDBGCVector(fileName=vectorFileName,overwrite=False)
             counter.mole.generateMOLFile()
 
