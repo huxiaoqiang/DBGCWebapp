@@ -17,6 +17,7 @@ $(document).ready(function(){
     $('input[type=radio]').on('change',toggleChoice);
     var radio = readCookie("radio");
     setRadio(radio);
+    $(".loading").hide();
     function preUpload(event){
         files = event.target.files;
         for(i = 0; i < files.length; i++){
@@ -83,6 +84,8 @@ $(document).ready(function(){
     };
     $('#UploadStringForm').on('submit', submitStr);
     function submitStr(){
+        $(".submitString").hide();
+        $(".loading").show();
         event.stopPropagation(); // Stop stuff happening
         event.preventDefault(); // Totally stop stuff happening
         var data = new FormData();

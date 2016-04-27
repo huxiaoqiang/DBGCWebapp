@@ -9,7 +9,6 @@
 
     <script src="/static/lib/jquery-2.1.4.js"></script>
     <script src="/static/lib/bootstrap/bootstrap.min.js"></script>
-    <script src="/static/js/index.js"></script>
     <script type="text/javascript" src="/static/lib/JmolFolder/JSmol.min.js"></script>
         <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -87,7 +86,22 @@ for(f in moleculars){
 })();
 
 $(document).ready(function(){
-//$("#appletplace").html(Jmol.getAppletHtml("jmol1", molecularInfo[0]));
+    function readCookie(name) {
+        var nameEQ = name + "=";
+        var ca = document.cookie.split(';');
+        for(var i=0;i < ca.length;i++) {
+            var c = ca[i];
+            while (c.charAt(0)==' ')
+                c = c.substring(1,c.length);
+            if (c.indexOf(nameEQ) == 0)
+                return c.substring(nameEQ.length,c.length);
+        }
+        return null;
+    };
+    var type = readCookie("radio");
+    if(type == "string"){
+        $(".input-filename").hide();
+    }
   function render(){
      $("#appletplace").html(Jmol.getAppletHtml("jmol1", molecularInfo[index]));
      $(".input-file-name").html(filenamelist[index]);
@@ -133,7 +147,7 @@ $(document).ready(function(){
                   </div>
 
                   <div class="col-md-6 " style="margin-top: 50px">
-                      <label>Input File Name:</label>&nbsp;<span class="input-file-name"></span><br>
+                      <div class="input-filename"><label>Input File Name:</label>&nbsp;<span class="input-file-name"></span></div>
                       <label>Formula:</label>&nbsp;<span class="formula"></span><br>
                       <label>Predicted standard enthalpy of formation:</label><br> <span class="Predicted-standard-enthalpy"></span> kcal/mol<br>
 <!--                       <label>Individual groups and group-group interaction:</label><br>
