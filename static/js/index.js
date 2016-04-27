@@ -15,7 +15,8 @@ $(document).ready(function(){
     var fileNames = '';
     $('input[type=file]').on('change',preUpload);
     $('input[type=radio]').on('change',toggleChoice);
-    $("#UploadStringForm").hide();
+    var radio = readCookie("radio");
+    setRadio(radio);
     function preUpload(event){
         files = event.target.files;
         for(i = 0; i < files.length; i++){
@@ -58,15 +59,26 @@ $(document).ready(function(){
             }
         });
     };
-
-    function toggleChoice(event){
-        if($('input:radio:checked').val()=='file'){
+    function setRadio(radio){
+        if(radio=='file'){
             $("#UploadStringForm").hide();
             $("#UploadFileForm").show();
         }
         else{
             $("#UploadStringForm").show();
             $("#UploadFileForm").hide();
+        }
+    }
+    function toggleChoice(event){
+        if($('input:radio:checked').val()=='file'){
+            $("#UploadStringForm").hide();
+            $("#UploadFileForm").show();
+            setCookie("radio","file");
+        }
+        else{
+            $("#UploadStringForm").show();
+            $("#UploadFileForm").hide();
+            setCookie("radio","string");
         }
     };
     $('#UploadStringForm').on('submit', submitStr);
@@ -101,3 +113,12 @@ $(document).ready(function(){
         });
     };
 });
+//JS操作cookies方法!
+//写cookies
+function setCookie(name,value)
+{
+    var Days = 30;
+    var exp = new Date();
+    exp.setTime(exp.getTime() + Days*24*60*60*1000);
+    document.cookie = name + "="+ escape (value) + ";expires=" + exp.toGMTString();
+}
