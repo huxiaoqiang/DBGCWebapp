@@ -124,7 +124,7 @@ class groupCounter:
 	@classmethod
 	def readGroupTemplate(self, fileName='groupTemplate.xlsx'):
 		if not os.path.exists(fileName):
-			print 'Error! Group template file ' + fileName + 'does not exist!'
+			print 'Error! Group template file ' + fileName + ' does not exist!'
 		BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 		groupTemplate = BASE_DIR + '/inputfile/'+fileName
 
@@ -211,6 +211,7 @@ class groupCounter:
 		dst = "static/DBGCVectors/"+fileName
 		shutil.copyfile(src,dst)
 		print 'Write group vector successfully!'
+		return tmp_groupVector
 
 # this function is used to write MATLAB output (enthalpy) into excel (DBGCVectors.xlsx)
 # input data should be a list object
