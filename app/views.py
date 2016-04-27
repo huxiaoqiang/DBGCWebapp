@@ -29,7 +29,8 @@ def output(request):
         'vectorFileName' : request.session.get('vectorFileName',''),
         'data':  request.session.get('data',''),
         'formulalist' : request.session.get('formulalist',''),
-        'mol' : request.session.get('mol','')
+        'mol' : request.session.get('mol',''),
+        'groupvector' : request.session['groupVector']
     }
     return render_to_response('output.html',context_instance = RequestContext(request,context))
 
@@ -56,6 +57,7 @@ def uploadFile(request):
 
             filelist = ''
             formulalist = ''
+            groupVector = []
             for f in file_obj:
                 if file_obj[f].size > 10000000:
                     re['error'] = error(5)
@@ -66,7 +68,8 @@ def uploadFile(request):
                 filelist = filelist + time_now+'.'+file_obj[f]._name.encode("utf-8") +'|'
 
                 # counterA.readGroupTemplate()
-                counterA.writeDBGCVector(fileName=vectorFileName,overwrite=False)
+                tmp_groupVector = counterA.writeDBGCVector(fileName=vectorFileName,overwrite=False)
+                groupVector.append(tmp_groupVector)
                 counterA.mole.generateMOLFile()
                 formulalist = formulalist + counterA.mole.formula.encode("utf-8") + '|'
             filelist = filelist[:-1]
@@ -91,6 +94,7 @@ def uploadFile(request):
                 request.session['data'] = data
                 request.session['mol'] = filelist
                 request.session['formulalist'] = formulalist
+                request.session['groupVector'] = groupVector
             except:
                 re['error'] = error(4)
     else:

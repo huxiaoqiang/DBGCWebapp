@@ -56,7 +56,6 @@ for(var i = 0;i < moleculars.length; i++){
     filenamelist.push(temp[1]);
 }
 
-
 data = {{data}};
 for(f in moleculars){
     molecularInfo[f] = {
@@ -86,6 +85,9 @@ for(f in moleculars){
 })();
 
 $(document).ready(function(){
+groupvector = {{groupvector |safe}};
+
+
     function readCookie(name) {
         var nameEQ = name + "=";
         var ca = document.cookie.split(';');
@@ -107,6 +109,17 @@ $(document).ready(function(){
      $(".input-file-name").html(filenamelist[index]);
      $(".formula").html(formulalist[index]);
      $(".Predicted-standard-enthalpy").html(data[index]);
+     tmpstr = "<table class='table'><tr>";
+        for(key in groupvector[index]){
+            tmpstr = tmpstr + "<td>"+ key + "</td>";
+        }
+        tmpstr = tmpstr + "</tr>";
+        tmpstr = tmpstr + "<tr>";
+        for(key in groupvector[index]){
+            tmpstr = tmpstr + "<td>"+ groupvector[index][key] + "</td>";
+        }
+        tmpstr = tmpstr + "</tr></table>";
+        $("#no-zero-info").html(tmpstr);
   };
   var index = 0;
   render();
@@ -157,8 +170,12 @@ $(document).ready(function(){
                       <a href="/static/DBGCVectors/{{vectorFileName}}" download="DBGCVectors">{{vectorFileName}}</a>
                   </div>
               </div>
+              <div id="no-zero-info">
+
+              </div>
           </div>
     </div>
+
     {% include "footer.html" %}
 </body>
 </html>
