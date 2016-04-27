@@ -110,13 +110,14 @@ def uploadStr(request):
             re['error'] = error(6)
             return HttpResponse(json.dumps(re),content_type='application/json')
         else:
+            groupVector = []
             time_now = time.strftime('%Y%m%d%H%M%S',time.localtime(time.time()))
             groupCounter.groupCounter.readGroupTemplate()
             counter = groupCounter.groupCounter()
             counter.readGjfGeom(gjfGeom=str,moleculeLabel=time_now)
             vectorFileName =  'DBGCVectors'+time_now+'.xlsx'
             molFileName = time_now
-            counter.writeDBGCVector(fileName=vectorFileName,overwrite=False)
+            tmp_groupVector = counter.writeDBGCVector(fileName=vectorFileName,overwrite=False)
             counter.mole.generateMOLFile()
 
             try:
@@ -133,10 +134,13 @@ def uploadStr(request):
 
                 # write output data to excel
                 groupCounter.writeDataToExcel(data, os.path.join('static/DBGCVectors',vectorFileName))
-
+                for key in tmp_groupVector.keys():
+                    tmp_groupVector[key.encode("utf-8")] = tmp_groupVector.pop(key)
+                groupVector.append(tmp_groupVector)
                 request.session['vectorFileName'] = vectorFileName
                 request.session['data'] = data
                 request.session['mol'] = molFileName
+                request.session['groupVector'] = groupVector
 
             except:
                 re['error'] = error(4)

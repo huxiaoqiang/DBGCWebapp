@@ -61,13 +61,17 @@ $(document).ready(function(){
         });
     };
     function setRadio(radio){
-        if(radio=='file'){
+        if(radio=='file' || radio == null){
             $("#UploadStringForm").hide();
             $("#UploadFileForm").show();
+            $(".file")[0].checked = true;
+            $(".string")[0].checked = false;
         }
         else{
             $("#UploadStringForm").show();
             $("#UploadFileForm").hide();
+            $(".string")[0].checked = true;
+            $(".file")[0].checked = false;
         }
     }
     function toggleChoice(event){
