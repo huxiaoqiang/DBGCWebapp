@@ -7,6 +7,7 @@ import matlab.engine
 import json
 import time
 import os
+import collections
 
 import groupCounter
 
@@ -62,6 +63,10 @@ def uploadFile(request):
                 re['error'] = common_api.error(1000)
                 return HttpResponse(json.dumps(re),content_type='application/json')
 
+            groupOrder = {}
+            for (index_group, tmp_group) in enumerate(groupCounter.groupCounter.groupLib):
+                groupOrder[tmp_group] = index_group
+
             filelist = ''
             formulalist = ''
             groupVector = []
@@ -107,6 +112,7 @@ def uploadFile(request):
                     re['error'] = common_api.error(1000)
                     return HttpResponse(json.dumps(re),content_type='application/json')
 
+                # tmp_orderedGroupVector = collections.OrderedDict(sorted(tmp_groupVector.items(), key=lambda group: groupOrder[group[0]]))
                 groupVector.append(tmp_groupVector)
 
                 try:
