@@ -1,7 +1,7 @@
-function [predicted_test_Y] = DBGCUseTrainedANN()
+function [predicted_test_Y] = DBGCUseTrainedANN(VectorsFileName)
 	% 20150829
-	close all;
-	clear;
+	 close all;
+	% clear;
 	clc;
 
 	regressionUsed = 2;
@@ -9,11 +9,13 @@ function [predicted_test_Y] = DBGCUseTrainedANN()
 
 	inputStartLine = 4;
 	outputStartLine = 4;
-	sampleSize = xlsread('DBGCVectors\DBGCVectors.xlsx','inputVectors','B2:B2');
+	disp(VectorsFileName);
+	vectorFile = strcat('DBGCVectors\',VectorsFileName);
+	sampleSize = xlsread(vectorFile,'inputVectors','B2:B2');
 
-	inputData = xlsread('DBGCVectors\DBGCVectors.xlsx','inputVectors',['F' num2str(inputStartLine) ':FS' num2str(inputStartLine+sampleSize-1)]);
+	inputData = xlsread(vectorFile,'inputVectors',['F' num2str(inputStartLine) ':FS' num2str(inputStartLine+sampleSize-1)]);
 
-	[~,speciesName,~] = xlsread('DBGCVectors\DBGCVectors.xlsx','inputVectors',['FV' num2str(outputStartLine) ':FV' num2str(outputStartLine+sampleSize-1)]);
+	[~,speciesName,~] = xlsread(vectorFile,'inputVectors',['FV' num2str(outputStartLine) ':FV' num2str(outputStartLine+sampleSize-1)]);
 	test_X = inputData;
 	test_speciesName = speciesName;
 
