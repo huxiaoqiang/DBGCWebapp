@@ -51,6 +51,11 @@ $(document).ready(function(){
                     window.location.href = '/output/';
                     console.log('success!');
                 }
+                else if(data.error.code >= 101){
+                    window.location.href = '/';
+                    alert("Error " + data.error.code + "! " + data.error.errMsg);
+                    console.log(data.error.code + " " + data.error.errMsg);
+                }
                 else{
                     console.log(data.error.code);
                 }
@@ -96,7 +101,7 @@ $(document).ready(function(){
         var str = $('textarea').val();
         var csrftoken = readCookie('csrftoken');
         data.append('data',str);
-        data.append('csrfmiddlewaretoken',csrftoken);
+        data.append('csrfmiddlewaretoken',csrftoken); 
         $.ajax({
             url:'api/str/upload',
             type: 'POST',
@@ -109,6 +114,11 @@ $(document).ready(function(){
                 if(data.error.code == '1'){
                     window.location.href = '/output/';
                     console.log('success!');
+                }
+                else if(data.error.code >= 101){
+                    window.location.href = '/';
+                    alert("Error " + data.error.code + "! " + data.error.errMsg);
+                    console.log(data.error.code + " " + data.error.errMsg);
                 }
                 else{
                     console.log(data.error.code);

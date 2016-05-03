@@ -26,10 +26,10 @@
               <div class="column clearfix" id="main-container">
                   <div class="home-page">
                       <h2>DBGC</h2>
-                      <h3><strong>D</strong>istance-<strong>b</strong>ased <strong>G</strong>roup <strong>C</strong>ontribution</h3>
+                      <h3><strong>D</strong>istance-<strong>B</strong>ased <strong>G</strong>roup <strong>C</strong>ontribution</h3>
                       <p class="notice">Please choose the format of submission.</p>
-                  <input type="radio" name="file" value="file" class="file"><span class="choice">file</span>
-                  <input type="radio" name="file" value="string" class="string"><span class="choice">string</span>
+                  <input type="radio" name="file" value="file" class="file"><span class="choice">File(s)</span>
+                  <input type="radio" name="file" value="string" class="string"><span class="choice">String</span>
                       <form name="UploadFileForm" id="UploadFileForm">
                           <input type="text" class="uploadFileText" placeholder="Choose File" disabled="disabled">
                           <div class="fileUpload btn btn-default">
@@ -38,7 +38,7 @@
                               <!--<label class="upload-label">upload files(multi-choice):</label>-->
                               <input type="file" name="file" multiple="multiple" class="upload">
                           </div>
-                            <div class="loader loader--style6" title="loading">
+                          <div class="loader loader--style6" title="loading">
                               <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                                  width="24px" height="30px" viewBox="0 0 24 30" style="enable-background:new 0 0 50 50;" xml:space="preserve">
                                 <rect x="0" y="13" width="4" height="5" fill="#333">
@@ -67,7 +67,7 @@
                                 </rect>
                               </svg>
                             </div>
-                            <a href="http://DBGC.online/static/examples/C14H30_example.gjf">Example</a>
+                            <a href="http://DBGC.online/static/examples/C10H22_example.gjf">Example</a>
                       </form>
                       <form name="UploadStringForm" id="UploadStringForm">
                           <div class="stringUpload">
@@ -123,19 +123,16 @@
                           </div>
 
                       </form>
-                      <!--<p>add a link: How do we get the connectivity from gwometry?</p>-->
-                      <!--<p>I am an input box for entering the geometry of species! can we draw a box like this? http://ww7.colorgrade.it/. I mean, to draw a box with visible linewidth</p>-->
                       <!--<p>Soon I will provide the function to parse connectivity directly.</p>-->
-                      <!--<p>Why do we need the connectivity?</p>-->
-                      <!--<p>Some simple introduction is needed to aim the user.</p>-->
-                      <!--<p>An example file should be given.</p>-->
                   <!--</div>-->
 
-                  <!--<p>The layout of this page need to be decorated. can we make a site like http://friendsoftheweb.com/. To use the button for sliding to help and aboutus page. Or we can make a site like this, http://simonfosterdesign.com/home/homepage/a-moving-target/. We need a light bottom color. Or this, http://johannlucchini.com/, to draw a line. Or this one, http://paravelinc.com/work/.</p>-->
                   <!--<p>Some friendly link is needed. NIST, RMG, THERM.</p>-->
                   <!--<p>we need add a button for sharing to fb, twitter and other sites.</p>-->
                   <!--<p>time of latest update</p>-->
 
+              </div>
+              <div>
+                <p>Friendly link: <a href="http://dbgconline.github.io/DBGC_distance-based_group_contribution/">code download</a>, <a href="http://webbook.nist.gov/chemistry/grp-add/">NIST Structures and Properties</a>, <a href="http://rmg.mit.edu/">RMG</a>, <a href="http://webbook.nist.gov/chemistry/name-ser.html">NIST Chemistry WebBook</a>, <a href="http://garfield.chem.elte.hu/Burcat/burcat.html">Burcat's Thermodynamic Database</a></p>
               </div>
             </div>
         {% include "footer.html" %}

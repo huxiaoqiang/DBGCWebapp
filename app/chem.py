@@ -6,6 +6,8 @@ import os
 import numpy as np
 import copy
 
+import common_api
+
 # constants
 elementDict={1:'H', 2:'He', 6:'C', 7:'N', 8:'O',
 '1':'H', '2':'He', '6':'C', '7':'N', '8':'O'
@@ -1223,8 +1225,10 @@ generated based on coordinates by chem.py
 						tmp_bondOrder = 5
 						if resonance > 2:
 							print 'Error! The variable resonance is larger than 2!'
+							raise common_api.molFileGeneratingError
 					if np.abs(tmp_bondOrder - round(tmp_bondOrder)) > 1e-3:
 						print 'Error! The bond order used in .mol file is not an integer!'
+						raise common_api.molFileGeneratingError
 					tmp_bonds[tmp_child.label] = int(round(tmp_bondOrder))
 			for tmp_label in sorted(tmp_bonds.keys()):
 				fw.write('%3d'%tmp_atom.label + '%3d'%tmp_label + '%3d'%int(tmp_bonds[tmp_label]) + '  0  0  0  0\n')

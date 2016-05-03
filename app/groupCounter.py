@@ -9,6 +9,8 @@ import openpyxl
 
 import chem
 import shutil
+
+import common_api
 # constants
 
 
@@ -25,8 +27,8 @@ class groupCounter:
 	#definetion of comparing pattern
 	pattern_gjfCommand = re.compile('^.*#p?.*$')
 	pattern_gjfMulti = re.compile('^.*([0-9]+) +([0-9]+).*$')
-	pattern_blankLine = re.compile('^\r\n$')
-
+	pattern_blankLine = re.compile('^[ \r\n]+$')
+	pattern_formula = re.compile('^C([0-9]*)H[0-9]+$')
 	# definition of variables
 	mole = None
 
@@ -78,7 +80,8 @@ class groupCounter:
 
 
 		if geomDone != 1:
-			print 'Sorry! The input file is not a standard gjf file!'
+			print 'Sorry! The input file is not a standard .gjf file!'
+			raise common_api.readGjfFileError
 		else:
 			pass
 			# print 'Gjf file read in successfully!'
@@ -86,14 +89,40 @@ class groupCounter:
 		gjfFile.close()
 
 		self.mole = chem.molecule()
-		self.mole.getGjfGeom(tmp_geom)
+		try:
+			self.mole.getGjfGeom(tmp_geom)
+		except:
+			print 'Sorry! The input file is not a standard .gjf file!'
+			raise common_api.readGjfFileError
 		self.mole.setSpinMultiplicity(tmp_multi)
 		self.mole.calcFormula()
+
+		tmp_m = self.pattern_formula.match(self.mole.formula)
+		if tmp_m:
+			if tmp_m.group(1) == '':
+				carbonNumber = 1
+			else:
+				carbonNumber = int(tmp_m.group(1))
+			if carbonNumber < 3:
+				print 'Please submit a species with carbon atoms >= 3!'
+				raise common_api.carbonLessThan3Error
+		else:
+			print 'Sorry! Not an alkane or alkene or their radical! Not supported temporarily!'
+			raise common_api.beyondSpeciesRangeError
+
 		if moleculeLabel == '':
 			self.mole.setLabel(self.mole.formula)
 		else:
-			self.mole.setLabel(moleculeLabel)		
-		self.mole.fulfillBonds()
+			self.mole.setLabel(moleculeLabel)
+		try:		
+			self.mole.fulfillBonds()
+		except:
+			print 'mole.fulfillBonds() failed!'
+			raise common_api.readGjfFileError
+
+		if self.mole.existRings():
+			print 'Sorry! Structure with rings is not supported temporarily!'
+			raise common_api.ringExistingError
 
 		return self.mole
 
@@ -107,14 +136,41 @@ class groupCounter:
 		tmp_geom = tmp_geom.split('\n')
 
 		self.mole = chem.molecule()
-		self.mole.getGjfGeom(tmp_geom)
+		try:
+			self.mole.getGjfGeom(tmp_geom)
+		except:
+			print 'Sorry! The input file is not in the expected format!'
+			raise common_api.readGjfGeomError		
 		self.mole.setSpinMultiplicity(tmp_multi)
 		self.mole.calcFormula()
+
+		tmp_m = self.pattern_formula.match(self.mole.formula)
+		if tmp_m:
+			if tmp_m.group(1) == '':
+				carbonNumber = 1
+			else:
+				carbonNumber = int(tmp_m.group(1))
+			if carbonNumber < 3:
+				print 'Please submit a species with carbon atoms >= 3!'
+				raise common_api.carbonLessThan3Error
+		else:
+			print 'Sorry! Not an alkane or alkene or their radical! Not supported temporarily!'
+			raise common_api.beyondSpeciesRangeError
+
 		if moleculeLabel == '':
 			self.mole.setLabel(self.mole.formula)
 		else:
-			self.mole.setLabel(moleculeLabel)		
-		self.mole.fulfillBonds()
+			self.mole.setLabel(moleculeLabel)
+
+		try:		
+			self.mole.fulfillBonds()
+		except:
+			print 'mole.fulfillBonds() failed!'
+			raise common_api.readGjfGeomError
+
+		if self.mole.existRings():
+			print 'Sorry! Structure with rings is not supported temporarily!'
+			raise common_api.ringExistingError
 
 		return self.mole
 
@@ -123,12 +179,14 @@ class groupCounter:
 	# the default name of the template file is groupTemplate.xlsx
 	@classmethod
 	def readGroupTemplate(self, fileName='groupTemplate.xlsx'):
-		if not os.path.exists(fileName):
-			print 'Error! Group template file ' + fileName + ' does not exist!'
 		BASE_DIR = os.path.dirname(os.path.dirname(__file__))
-		groupTemplate = BASE_DIR + '/inputfile/'+fileName
+		fileName = BASE_DIR + '/inputfile/'+fileName
 
-		wbr = openpyxl.load_workbook(groupTemplate)
+		if not os.path.exists(fileName):
+			print 'Error! Group template file ' + fileName + ' does not exist!'	
+			raise common_api.groupTemplateReadError	
+
+		wbr = openpyxl.load_workbook(fileName)
 		shr = wbr.get_sheet_by_name('inputVectors') 
 		vectorDimension = int(shr.cell(row=2, column=4).value)
 		row_group = 3
@@ -145,6 +203,7 @@ class groupCounter:
 			print vectorDimension
 			print all_groups
 			print 'Error! The dimension of vector is not the same as the length of group vector in template file ' + fileName
+			raise common_api.groupTemplateReadError
 		else:
 			self.groupLib = all_groups
 			print 'Read group template file successfully'
@@ -190,6 +249,7 @@ class groupCounter:
 		tmp_groups = self.mole.get1stOrderGroup()
 		if not set(tmp_groups).issubset(set(self.groupLib)):
 			print 'Error! The input molecule does not belong to the family of trained molecules.'
+			raise common_api.writeDBGCVectorError
 		tmp_groupVector = self.mole.getGroupVector6()
 		tmp_row = 4+speciesNumber
 		tmp_col = 1
@@ -224,12 +284,14 @@ def writeDataToExcel(data, fileName):
 		vectorDimension = shw.cell(row=2, column=4).value
 		if speciesNumber != len(data):
 			print 'Error! The number of output data is not as the same as the that of species!'
+			raise common_api.writeDataToExcelError
 		tmp_row = 4
 		for (index, item) in enumerate(data):
 			shw.cell(row=tmp_row, column=vectorDimension+9).value = item
 			tmp_row += 1
 	else:
 		print 'Error! File ' + fileName + ' does not exists!'
+		raise common_api.writeDataToExcelError
 	wbw.save(fileName)	
 
 
