@@ -1,7 +1,7 @@
 import groupCounter
 import os
 
-groupCounter.groupCounter.readGroupTemplate()
+# groupCounter.groupCounter.readGroupTemplate()
 
 counterA = groupCounter.groupCounter()
 
@@ -9,13 +9,16 @@ counterA = groupCounter.groupCounter()
 # counterA.readGjfFile(fileName='apple_' + '%03d'%i + '.gjf', directory='Gjfs', moleculeLabel='test'+'%03d'%i)
 # counterA.readGroupTemplate()
 # counterA.writeDBGCVector(overwrite=False)
+connectivity = ''
 
-counterA.readGjfFile(fileName='banana_090.gjf', directory='Gjfs',moleculeLabel='testmole')
-print groupCounter.groupCounter.groupLib
-print counterA.groupLib
-# counterA.readGroupTemplate()
-counterA.writeDBGCVector(overwrite=True)
-counterA.mole.generateMOLFile()
+
+
+counterA.readGjfFile(fileName='c14h30_2.gjf', directory='Gjfs',moleculeLabel='c14h30_2')
+connectivity += counterA.mole.getRMGConnectivity()
+connectivity += '\n'
+
+
+print connectivity
 
 # for i in xrange(1,28):
 # 	print "%03d" % i

@@ -226,7 +226,7 @@ class molecule:
 						self.atoms[int(tmp_line[j]) - 1].addBond(tmp_bond)
 						self.bonds.append(tmp_bond)
 			elif connect != []:
-				print 'Error! Worng coonectivity in molecule initiation!'					
+				print 'Error! Wrong coonectivity in molecule initiation!'					
 		else:
 			self.atoms = copy.deepcopy(inputAtoms)
 
@@ -1165,6 +1165,7 @@ class molecule:
 	# currently only used for alkane and alkene molecules and radicals, only single bond and double bond is considered. cannot used for 1.5 bond 
 	def getRMGConnectivity(self):
 		bondDict = {1: 'S', 1.5: '1.5', 2: 'D'}
+		fullBondOrderDict = {'C': 4, 'O': 2, 'H': 1}
 
 		connectInfo = self.label + '\n'
 		# get all non-H atom list
@@ -1173,8 +1174,11 @@ class molecule:
 			if tmp_atom.symbol != 'H':
 				allAtoms.append(tmp_atom)
 		for (atomIndex, tmp_atom) in enumerate(allAtoms):
-			# only carbon atom considered here. If other heavy atom exists in the system, radicalIndex should be kept consistent with the new element. 
-			radicalIndex = 4
+			# only carbon and oxygen atom considered here. If other heavy atom exists in the system, radicalIndex should be kept consistent with the new element. 
+			if tmp_atom.symbol in fullBondOrderDict.keys():
+				radicalIndex = fullBondOrderDict[tmp_atom.symbol]
+			else:
+				radicalIndex = 4
 			tmp_str = ''
 			for (childIndex, tmp_child) in enumerate(tmp_atom.children):
 				tmp_bondOrder = tmp_atom.bonds[childIndex].bondOrder
