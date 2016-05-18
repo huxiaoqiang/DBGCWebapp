@@ -112,7 +112,8 @@ def uploadFile(request):
                     re['error'] = common_api.error(1000)
                     return HttpResponse(json.dumps(re),content_type='application/json')
 
-                # tmp_orderedGroupVector = collections.OrderedDict(sorted(tmp_groupVector.items(), key=lambda group: groupOrder[group[0]]))
+                tmp_orderedGroupVector = collections.OrderedDict(sorted(tmp_groupVector.items(), key=lambda group: groupOrder[group[0]]))
+                print tmp_orderedGroupVector
                 groupVector.append(tmp_groupVector)
 
                 try:
