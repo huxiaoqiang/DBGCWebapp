@@ -107,7 +107,7 @@ function render(){
     $(".input-file-name").html(filenamelist[index]);
     $(".formula").html(formulalist[index]);
     $(".Predicted-standard-enthalpy").html(data[index].toFixed(2));
-       tmpstr = "<table class='table'>";
+       tmpstr = "<table class='table table-hover table-condensed'>";
        for(key in groupvector[index]){
            tmpstr = tmpstr + "<tr>";
            tmpstr = tmpstr + "<td>"+ key + "</td>";
@@ -165,7 +165,7 @@ function render(){
               </div>
                 <div style="clear:both;"></div>
               <label>DBGC vector download:</label><a href="/static/DBGCVectors/{{vectorFileName}}" download="DBGCVectors">{{vectorFileName}}</a>
-              <p>Non-zero elements in DBGC Vector：</p>
+              <p class="non-zero-title">Non-zero elements in DBGC Vector：</p>
               <div id="no-zero-info">
 
               </div>
