@@ -9,7 +9,7 @@
     }
     .radio_choose{
         float: left;
-        margin: 2px 0 0 10px;
+        margin: 10px 0 0 10px;
         .choice{
             font-family: Arial;
             font-size:1.2em;
@@ -42,7 +42,6 @@
             box-shadow: 0 1px 3px rgba(0,0,0,0.2);
             -webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.2);
             -moz-box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-            float: left;
         }
         .fileUpload{
             position: relative;
@@ -51,7 +50,6 @@
             height: 40px;
             border: 0;
             padding-top: 10px;
-            float: left;
             margin-left: 10px;
             .upload{
                 position: absolute;
@@ -68,13 +66,14 @@
         .loader{
             width: 104px;
             height: 40px;
-            float: left;
+            float: right;
+            right: 190px;
             position: relative;
             display: none;
+            margin-top: 5px;
         }
         a.example{
             margin: 10px 0 0 10px;
-            float: left;
         }
         .stringUpload{
             textarea{
@@ -89,6 +88,13 @@
             }
             .loading{
                 margin-top: 20px;
+            }
+            .example-text{
+                text-align: left;
+            }
+            pre.example{
+                width: 80%;
+                margin: 0 auto;
             }
         }
     }

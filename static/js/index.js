@@ -38,6 +38,8 @@ $(document).ready(function(){
         data.append('csrfmiddlewaretoken',csrftoken);
         $('.loader').css("display","block");
         $('.fileUpload').css("display","none");
+        $('a.example').css("float","right");
+        $('a.example').css("margin-top","10px");
         $.ajax({
             url:'api/file/upload',
             type: 'POST',

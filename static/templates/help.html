@@ -25,8 +25,6 @@
 {% include "header.html" %}
     <div id='wrap'>
       <div class="column clearfix" id="main-container">
-        <p><font color="white">hi</font></p>
-
         <h1>FAQs</h1>
         <!--<p>This list should be made into a contracted list. Clike an arrow -> more contend appears, which are hidden by default.</p>-->
   		  
@@ -152,40 +150,21 @@
             <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
               <div class="panel-body">
                 <p>During thermodynamic property prediction for a molecule, all the user need to provide is the molecular scratch, which is the sketch drawn that specifies the connectivity of atoms. Then the web app would return the predicted standard enthalpy of formation and group contribution vector. Currently two types of input formats are supported. One is to upload the .gjf file on the <a href="http://DBGC.online">homepage</a>. An example file can be downloaded <a href="http://DBGC.online/static/examples/C10H22_example.gjf">here</a>. The other is to enter the geometry string directly on the <a href="http://DBGC.online">homepage</a>. An example is shown as follows.</p>
-                <p class="example-line">----------------------------------example below----------------------------------</p>
                 <pre>
- C                 -3.02177851   -0.39087681    0.00000000
- H                 -2.66510567    0.11352138   -0.87365150
- H                 -4.09177851   -0.39086363    0.00000000
- C                 -2.50846280   -1.84280897    0.00000000
- H                 -2.86513788   -2.34720795   -0.87365013
- H                 -1.43846280   -1.84282161   -0.00000236
- H                 -2.86513346   -2.34720692    0.87365253
- C                 -2.50843629    0.33507946    1.25740497
- H                 -2.86670526   -0.16818854    2.13105517
- C                 -0.96843890    0.33262256    1.25881307
- H                 -0.61362063   -0.58483021    1.67986464
- H                 -0.61070416    0.42613548    0.25473080
- C                 -0.45398571    1.51602300    2.09934939
- C                 -0.87716296    2.83956005    1.43544374
- H                 -1.88042975    3.07728489    1.72152528
- H                 -0.22085805    3.62314752    1.75191576
- H                 -0.82422670    2.73784773    0.37160524
- C                 -1.05260146    1.43799903    3.51609617
- H                 -1.01490653    0.42685135    3.86403216
- H                 -0.48908103    2.06362653    4.17634988
- H                 -2.06973801    1.76930780    3.49226907
- C                  1.08226022    1.45390986    2.18704427
- H                  1.49810667    1.50607537    1.20253907
- H                  1.43984812    2.27728453    2.76935437
- H                  1.37621708    0.53521311    2.65017023
- C                 -3.01945228    1.78782193    1.25599826
- H                 -2.51696969    2.34192326    0.49089502
- C                 -4.53554136    1.79842810    0.98588456
- H                 -4.95359102    2.71943200    1.33500672
- H                 -4.71122694    1.70276628   -0.06524977
- H                 -4.99519224    0.98045519    1.50022044
- H                 -4.99519224    0.98045519    1.50022044
+C                 -2.55102045    0.74829931    0.00000000
+H                 -2.19436603   -0.26051069    0.00000000
+H                 -2.19434761    1.25269750   -0.87365150
+H                 -3.62102045    0.74831249    0.00000000
+C                 -2.03767823    1.47425558    1.25740497
+H                 -0.96768004    1.47254890    1.25838372
+C                 -2.54869391    2.92699816    1.25599807
+H                 -3.61869169    2.92870433    1.25464312
+H                 -2.19232840    3.43128843    2.12983728
+H                 -2.19011781    3.43037440    0.38253625
+C                 -2.55331789    0.74992531    2.51480761
+H                 -2.19846972   -0.25952110    2.51565648
+H                 -2.19643713    1.25417596    3.38845938
+H                 -3.62331581    0.75185287    2.51395648
                 </pre>
             <p class="example-line">----------------------------------example above----------------------------------</p>
 				        <p>In the future, we will support the input of connectivity.</p>      
@@ -243,7 +222,7 @@
             <div class="panel-heading" role="tab" id="headingNine">
               <h4 class="panel-title">
                 <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseNine" aria-expanded="false" aria-controls="collapseNine">
-                  <h3>10. Is this an open-source program?</h3>
+                  <h3>10. Is this an open-source program? (Code download)</h3>
                 </a>
               </h4>
             </div>
