@@ -113,10 +113,12 @@ def uploadFile(request):
                     return HttpResponse(json.dumps(re),content_type='application/json')
 
                 tmp_orderedGroupVector = collections.OrderedDict(sorted(tmp_groupVector.items(), key=lambda group: groupOrder[group[0]]))
-                tmp_groupVector = dict()
-                for item in tmp_orderedGroupVector:
-                    tmp_groupVector[item] = tmp_orderedGroupVector[item]
-                groupVector.append(tmp_groupVector)
+                tmp_orderedGroupVectorList = []
+                for tmp_group in tmp_orderedGroupVector.keys():
+                    if not(tmp_orderedGroupVector[tmp_group] <= 1e-15 or tmp_orderedGroupVector[tmp_group] == 0):
+                        tmp_orderedGroupVectorList.append([tmp_group, tmp_orderedGroupVector[tmp_group]])
+
+                groupVector.append(tmp_orderedGroupVectorList)
 
                 try:
                     counterA.mole.generateMOLFile()
@@ -171,6 +173,9 @@ def uploadStr(request):
             return HttpResponse(json.dumps(re),content_type='application/json')
         else:
             groupVector = []
+            groupOrder = {}
+            for (index_group, tmp_group) in enumerate(groupCounter.groupCounter.groupLib):
+                groupOrder[tmp_group] = index_group
             time_now = time.strftime('%Y%m%d%H%M%S',time.localtime(time.time()))
 
             try:
@@ -224,6 +229,7 @@ def uploadStr(request):
 
             try:
                 counter.mole.generateMOLFile()
+                print counter.mole.formula
             except common_api.molFileGeneratingError:
                 re['error'] = common_api.error(104)
                 print 'moleculeLabel ' + time_now
@@ -249,8 +255,16 @@ def uploadStr(request):
                 groupCounter.writeDataToExcel(data, os.path.join('static/DBGCVectors',vectorFileName))
                 for key in tmp_groupVector.keys():
                     tmp_groupVector[key.encode("utf-8")] = tmp_groupVector.pop(key)
-                groupVector.append(tmp_groupVector)
+
+                tmp_orderedGroupVector = collections.OrderedDict(sorted(tmp_groupVector.items(), key=lambda group: groupOrder[group[0]]))
+                tmp_orderedGroupVectorList = []
+                for tmp_group in tmp_orderedGroupVector.keys():
+                    if not(tmp_orderedGroupVector[tmp_group] <= 1e-15 or tmp_orderedGroupVector[tmp_group] == 0):
+                        tmp_orderedGroupVectorList.append([tmp_group, tmp_orderedGroupVector[tmp_group]])
+
+                groupVector.append(tmp_orderedGroupVectorList)
                 request.session['vectorFileName'] = vectorFileName
+                request.session['formulalist'] = counter.mole.formula.encode("utf-8")
                 request.session['data'] = data
                 request.session['mol'] = molFileName
                 request.session['groupVector'] = groupVector
