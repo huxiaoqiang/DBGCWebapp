@@ -113,7 +113,9 @@ def uploadFile(request):
                     return HttpResponse(json.dumps(re),content_type='application/json')
 
                 tmp_orderedGroupVector = collections.OrderedDict(sorted(tmp_groupVector.items(), key=lambda group: groupOrder[group[0]]))
-                print tmp_orderedGroupVector
+                tmp_groupVector = dict()
+                for item in tmp_orderedGroupVector:
+                    tmp_groupVector[item] = tmp_orderedGroupVector[item]
                 groupVector.append(tmp_groupVector)
 
                 try:
