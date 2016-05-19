@@ -113,9 +113,11 @@ def uploadFile(request):
                     return HttpResponse(json.dumps(re),content_type='application/json')
 
                 tmp_orderedGroupVector = collections.OrderedDict(sorted(tmp_groupVector.items(), key=lambda group: groupOrder[group[0]]))
-                tmp_groupVector = dict()
-                for item in tmp_orderedGroupVector:
-                    tmp_groupVector[item] = tmp_orderedGroupVector[item]
+                tmp_orderedGroupVectorList = []
+                for tmp_group in tmp_orderedGroupVector.keys():
+                    tmp_orderedGroupVectorList.append([tmp_group, tmp_orderedGroupVector[tmp_group]])
+                print tmp_orderedGroupVectorList
+
                 groupVector.append(tmp_groupVector)
 
                 try:
@@ -224,6 +226,7 @@ def uploadStr(request):
 
             try:
                 counter.mole.generateMOLFile()
+                print counter.mole.formula
             except common_api.molFileGeneratingError:
                 re['error'] = common_api.error(104)
                 print 'moleculeLabel ' + time_now
