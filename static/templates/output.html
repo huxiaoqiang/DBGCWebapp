@@ -109,10 +109,12 @@ function render(){
     $(".Predicted-standard-enthalpy").html(data[index].toFixed(2));
        tmpstr = "<table class='table table-hover table-condensed'>";
        for(key in groupvector[index]){
-           tmpstr = tmpstr + "<tr>";
-           tmpstr = tmpstr + "<td>"+ groupvector[index][key][0] + "</td>";
-           tmpstr = tmpstr + "<td>"+ groupvector[index][key][1] + "</td>";
-           tmpstr = tmpstr + "</tr>";
+           if(groupvector[index][key][0] != undefined){
+               tmpstr = tmpstr + "<tr>";
+               tmpstr = tmpstr + "<td>"+ groupvector[index][key][0] + "</td>";
+               tmpstr = tmpstr + "<td>"+ groupvector[index][key][1] + "</td>";
+               tmpstr = tmpstr + "</tr>";
+           }
        }
        tmpstr = tmpstr + "</table>";
        $("#no-zero-info").html(tmpstr);
