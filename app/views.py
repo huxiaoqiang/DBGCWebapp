@@ -99,7 +99,7 @@ def uploadFile(request):
                     re['error'] = common_api.error(1000)
                     return HttpResponse(json.dumps(re),content_type='application/json')                    
 
-                filelist = filelist + time_now+'.'+file_obj[f]._name.encode("utf-8") +'|'
+                filelist = filelist + time_now+'.'+file_obj[f]._name.encode("utf-8").replace(" ","") +'|'
 
                 try: 
                     tmp_groupVector = counterA.writeDBGCVector(fileName=vectorFileName,overwrite=False)

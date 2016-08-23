@@ -1203,7 +1203,8 @@ class molecule:
 		if not os.path.exists(BASE_DIR+directory):
 			os.mkdir(BASE_DIR+directory)
 		if moleculeLabel == '':
-			moleculeLabel = self.label
+			# remove the space of the moleculeLabel
+			moleculeLabel = self.label.replace(" ","")
 
 		resonance = 0
 

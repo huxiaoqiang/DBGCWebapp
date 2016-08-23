@@ -48,10 +48,12 @@ jmol_isReady = function(applet) {
 
 moleculars = '{{mol}}';
 moleculars = moleculars.split('|');
+
 formulalist = '{{formulalist}}';
 formulalist = formulalist.split('|');
 filenamelist = new Array;
 for(var i = 0;i < moleculars.length; i++){
+    moleculars[i] = moleculars[i].replace(/ /g,"");
     var temp = moleculars[i].split('.');
     filenamelist.push(temp[1]);
 }
