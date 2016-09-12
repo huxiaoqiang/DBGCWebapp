@@ -134,8 +134,15 @@ def uploadFile(request):
                 formulalist = formulalist + counterA.mole.formula.encode("utf-8") + '|'
             filelist = filelist[:-1]
             formulalist = formulalist[:-1]
+            model = request.POST.get('model','')
+            if model == '':
+                re['error'] = common_api.error(110)
+                return HttpResponse(json.dumps(re),content_type='application/json')
             try:
-                ret = eng.DBGCUseTrainedANN(vectorFileName)
+                if model == 'DBGCUseTrainedANN':
+                    ret = eng.DBGCUseTrainedANN(vectorFileName)
+                else:
+                    ret = eng.DBGCUseTrainedANN(vectorFileName)
                 if isinstance(ret,float):
                     data = [ret]
                 else:
@@ -238,9 +245,15 @@ def uploadStr(request):
                 print 'Unexpected error in counter.mole.generateMOLFile()!'
                 re['error'] = common_api.error(1000)
                 return HttpResponse(json.dumps(re),content_type='application/json')            
-
+            model = request.POST.get('model','')
+            if model == '':
+                re['error'] = common_api.error(110)
+                return HttpResponse(json.dumps(re),content_type='application/json')
             try:
-                ret = eng.DBGCUseTrainedANN(vectorFileName)
+                if model == 'DBGCUseTrainedANN':
+                    ret = eng.DBGCUseTrainedANN(vectorFileName)
+                else:
+                    ret = eng.DBGCUseTrainedANN(vectorFileName)
                 if isinstance(ret,float):
                     data = [ret]
                 else:

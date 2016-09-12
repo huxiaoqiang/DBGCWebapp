@@ -35,7 +35,9 @@ $(document).ready(function(){
             data.append(key,value);
         });
         var csrftoken = readCookie('csrftoken');
+        var model =  $(".selector").val();
         data.append('csrfmiddlewaretoken',csrftoken);
+        data.append('model',model);
         $('.loader').css("display","block");
         $('.fileUpload').css("display","none");
         $('.example').css("float","right");
@@ -100,8 +102,10 @@ $(document).ready(function(){
         event.preventDefault(); // Totally stop stuff happening
         var data = new FormData();
         var str = $('textarea').val();
+        var model =  $(".selector").val();
         var csrftoken = readCookie('csrftoken');
         data.append('data',str);
+        data.append('model',model);
         data.append('csrfmiddlewaretoken',csrftoken); 
         $.ajax({
             url:'api/str/upload',

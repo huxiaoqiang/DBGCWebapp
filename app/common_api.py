@@ -15,7 +15,7 @@ errMsg = {
     107 : 'Please submit a species with carbon atoms >= 3!',
     108 : 'Sorry! Not an alkane or alkene or their radical! Not supported temporarily!',
     109 : 'Sorry! Structure with rings is not supported temporarily!',
-
+    110 : 'Need choose the model!',
     1000 : 'Unknown Error!',
 }
 

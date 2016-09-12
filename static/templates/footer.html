@@ -10,9 +10,17 @@
   <div class="navbar-footer">
     <div id="footer-nav">
       <font color="white">Contact us: dbgconline@gmail.com</font>
+      <a title="share to facebook!" class="facebook" target="_blank" style="color:#FFFFFF;"><i class="facebook square icon huge"></i></a>
+      <a title="share to twitter!" class="twitter" target="_blank"  style="color:#FFFFFF;"><i class="twitter square icon huge"></i></a>
     </div>
     <div id="footer-brand" >
     Copyright &nbsp; &copy; &nbsp;Tsinghua University&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     </div>
   </div>
 </footer>
+<script>
+  var url = window.location.href;
+  console.log(url);
+  $(".facebook").attr("href","http://www.facebook.com/share.php?u="+url);
+  $(".twitter").attr("href","http://twitter.com/home/?status="+url);
+</script>
