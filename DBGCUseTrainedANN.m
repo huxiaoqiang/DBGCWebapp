@@ -1,4 +1,4 @@
-function [predicted_test_Y] = DBGCUseTrainedANN(VectorsFileName)
+function [predicted_test_Y] = DBGCUseTrainedANN(VectorsFileName, NetworkName)
 	% 20150829
 	 close all;
 	% clear;
@@ -21,7 +21,8 @@ function [predicted_test_Y] = DBGCUseTrainedANN(VectorsFileName)
 
 	regressionTruncate = 17;
 
-	load savedNet\parameterizedAlgorithm 
+	load(['savedNet\', NetworkName])
+%	load savedNet\parameterizedAlgorithm 
 
 	if regressionUsed ==2
 	    predicted_test_Y = trained_ANN_net(test_X(:,regressionTruncate+1:end)');   

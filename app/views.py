@@ -140,9 +140,9 @@ def uploadFile(request):
                 return HttpResponse(json.dumps(re),content_type='application/json')
             try:
                 if model == 'DBGCUseTrainedANN':
-                    ret = eng.DBGCUseTrainedANN(vectorFileName)
+                    ret = eng.DBGCUseTrainedANN(vectorFileName, 'parameterizedAlgorithm_default')
                 else:
-                    ret = eng.DBGCUseTrainedANN(vectorFileName)
+                    ret = eng.DBGCUseTrainedANN(vectorFileName, model)
                 if isinstance(ret,float):
                     data = [ret]
                 else:
@@ -251,9 +251,9 @@ def uploadStr(request):
                 return HttpResponse(json.dumps(re),content_type='application/json')
             try:
                 if model == 'DBGCUseTrainedANN':
-                    ret = eng.DBGCUseTrainedANN(vectorFileName)
+                    ret = eng.DBGCUseTrainedANN(vectorFileName, 'parameterizedAlgorithm_default')
                 else:
-                    ret = eng.DBGCUseTrainedANN(vectorFileName)
+                    ret = eng.DBGCUseTrainedANN(vectorFileName, model)
                 if isinstance(ret,float):
                     data = [ret]
                 else:
